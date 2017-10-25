@@ -7,6 +7,19 @@ import VueRouter from 'vue-router';
 import VueCharts from 'vue-chartjs';
 import { Bar, Line } from 'vue-chartjs';
 import VueResource from 'vue-resource';
+import VueApollo from 'vue-apollo';
+import { ApolloClient, createBatchingNetworkInterface } from 'apollo-client'
+
+// Create the apollo client
+const apolloClient = new ApolloClient({
+  networkInterface: createBatchingNetworkInterface({
+    uri: 'http://localhost:3020/graphql',
+  }),
+  connectToDevTools: true,
+});
+
+// Install the vue plugin
+Vue.use(VueApollo);
 
 //import charts component 
 import BarChart from './components/Charts/BarChart';
