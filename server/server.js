@@ -36,8 +36,8 @@ const reportSchema = require('./schemas/reportSchema');//report schema
 const userSchema = require('./schemas/userSchema');// user schemma
 
 //User data conection 
-app.use('/UserApi', bodyParser.json(), graphqlExpress({schema:userSchema}));
+app.use('/Api', bodyParser.json(), graphqlExpress({schema:userSchema}));
 app.use('/ReportApi', bodyParser.json(), graphqlExpress({schema:reportSchema}));
-app.use('/UserGraphiql', graphiqlExpress({endpointURL: '/UserApi'}));
+app.use('/UserGraphiql', graphiqlExpress({endpointURL: '/Api'}));
 
 app.listen(4000, () => console.log('Now browse to localhost:4000/graphiql'));

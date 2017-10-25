@@ -6,7 +6,6 @@
   "scripts": {
     "dev:server": "nodemon server.js",
     "test": "mocha",
-    "json:server": "json-server --watch data.json"
   },
   "author": "",
   "license": "ISC",
