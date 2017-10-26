@@ -189,6 +189,7 @@
 </template>
 
 <script>
+	import REPORT_CREATE from '../../../graphql/reportAdd.gql';
   export default {
 		data () {
       return {
@@ -269,44 +270,20 @@
 				}
 			},
 			saveReport() {
-				// We save the user input in case of an error
-				const newTag = this.newTag;
-				// We clear it early to give the UI a snappy feel
-				this.newTag = '';
+				var label = 'example';
+
 				this.$apollo.mutate({
-					// Query
-					mutation: gql`mutation ($label: String!) {
-						addTag(label: $label) {
-							id
-							label
-						}
-					}`,
-					// Parameters
+					mutation: REPORT_CREATE,
 					variables: {
-						label: newTag,
-					},
-					// Update the cache with the result
-					// The query will be updated with the optimistic response
-					// and then with the real result of the mutation
-					update: (store, { data: { newTag } }) => {
-						// Read the data from our cache for this query.
-						const data = store.readQuery({ query: TAGS_QUERY })
-						// Add our tag from the mutation to the end
-						data.tags.push(newTag)
-						// Write our data back to the cache.
-						store.writeQuery({ query: TAGS_QUERY, data })
-					},
-					// Optimistic UI
-					// Will be treated as a 'fake' result as soon as the request is made
-					// so that the UI can react quickly and the user be happy
-					optimisticResponse: {
-						__typename: 'Mutation',
-						addTag: {
-							__typename: 'Tag',
-							id: -1,
-							label: newTag,
-						},
-				}})
+						label
+					}
+				}).then((data) => {
+					console.log(data);
+				}).catch((error) => {
+					console.log(date);
+				})
+				
+
 			}
     }
   }

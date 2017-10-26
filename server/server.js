@@ -19,7 +19,7 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
 
     // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE, FETCH');
 
     // Request headers you wish to allow
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -32,12 +32,14 @@ app.use(function (req, res, next) {
     next();
 });
 
+const tasksSchema = require('./schemas/tasksSchema');//report schema 
 const reportSchema = require('./schemas/reportSchema');//report schema 
 const userSchema = require('./schemas/userSchema');// user schemma
 
 //User data conection 
 app.use('/Api', bodyParser.json(), graphqlExpress({schema:userSchema}));
 app.use('/ReportApi', bodyParser.json(), graphqlExpress({schema:reportSchema}));
+app.use('/TaskstApi', bodyParser.json(), graphqlExpress({schema:tasksSchema}));
 app.use('/UserGraphiql', graphiqlExpress({endpointURL: '/Api'}));
 
 app.listen(4000, () => console.log('Now browse to localhost:4000/graphiql'));

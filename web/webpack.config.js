@@ -42,6 +42,10 @@ module.exports = {
           { loader: "style-loader/url" },
           { loader: "file-loader" }
         ]
+      },
+			{
+        test: /\.(gql|graphql)$/,
+        loader: 'graphql-tag/loader'
       }
     ]
   },
