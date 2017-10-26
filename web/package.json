@@ -13,6 +13,7 @@
     "apollo-server-express": "^1.1.2",
     "axios": "^0.17.0",
     "chart.js": "^2.6.0",
+    "graphql-tag": "^2.5.0",
     "vue": "^2.3.3",
     "vue-apollo": "^2.1.0-rc.8",
     "vue-chartjs": "^2.8.2",

@@ -189,7 +189,6 @@
 </template>
 
 <script>
-	import axios from 'axios';
   export default {
 		data () {
       return {
@@ -236,6 +235,9 @@
         ]
     	}
 		},
+		apollo: {
+			
+		},
     methods: {
       submit () {
         if (this.$refs.form.validate()) {
@@ -256,61 +258,6 @@
 					this.clear ();
         }
       },
-			saveReport(){
-				var tem = `mutation{
-					reportCreate(record:{
-						tasks:{
-							completed:[
-
-							]
-						}
-					})
-				}`;
-				var tem = `mutation{
-								reportCreate(record:{
-									tasks:{
-										completed:[
-											{
-												reference:"asdasda",
-												description:"asdas asd asd asdasd",
-												status:"Completed"
-											}
-										],
-										progress:[
-											{
-												reference:"asdasda 2",
-												description:"asdas asd asd asdasd 2",
-												status:"In progress"
-											}
-										],
-										planned:[
-											{
-												reference:"asdasda 3",
-												description:"asdas asd asd asdasd 3",
-												status:"Planned"
-											}
-										],
-									}
-								}){
-									record{
-										tasks{
-											completed{
-												status
-											}
-										}
-									}
-								}
-							}`;
-				console.log(tem);
-		
-				axios.post(`http://localhost:4000/UserApi`,tem).then(response => {
-					console.log(response);
-				})
-				.catch(e => {
-					console.log(e);
-					//this.errors.push(e);
-				})
-			},
       clear () {
         this.$refs.form.reset()
       },
@@ -320,6 +267,46 @@
 						list.splice(i, 1);
 					}
 				}
+			},
+			saveReport() {
+				// We save the user input in case of an error
+				const newTag = this.newTag;
+				// We clear it early to give the UI a snappy feel
+				this.newTag = '';
+				this.$apollo.mutate({
+					// Query
+					mutation: gql`mutation ($label: String!) {
+						addTag(label: $label) {
+							id
+							label
+						}
+					}`,
+					// Parameters
+					variables: {
+						label: newTag,
+					},
+					// Update the cache with the result
+					// The query will be updated with the optimistic response
+					// and then with the real result of the mutation
+					update: (store, { data: { newTag } }) => {
+						// Read the data from our cache for this query.
+						const data = store.readQuery({ query: TAGS_QUERY })
+						// Add our tag from the mutation to the end
+						data.tags.push(newTag)
+						// Write our data back to the cache.
+						store.writeQuery({ query: TAGS_QUERY, data })
+					},
+					// Optimistic UI
+					// Will be treated as a 'fake' result as soon as the request is made
+					// so that the UI can react quickly and the user be happy
+					optimisticResponse: {
+						__typename: 'Mutation',
+						addTag: {
+							__typename: 'Tag',
+							id: -1,
+							label: newTag,
+						},
+				}})
 			}
     }
   }

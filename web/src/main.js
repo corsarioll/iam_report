@@ -71,8 +71,14 @@ const router = new VueRouter({
 	mode:'history'
 });
 
+//Apollo provider 
+const apolloProvider = new VueApollo({
+  defaultClient: apolloClient,
+})
+
 new Vue({
   el: '#app',
+	apolloProvider,
   render: h => h(App),
 	router:router
 })
