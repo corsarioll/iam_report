@@ -1,7 +1,9 @@
-mutation tasksCreate ($label: String!) {
-	createTask (done: false, label: $label) {
-		id
-		done
-		label
+mutation taskCreate ($label: String!) {
+	taskCreate (record:{done: false, label: $label}) {
+		record{
+      done
+			label
+			id
+    }
 	}
 }

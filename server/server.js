@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
-const { graphqlExpress, graphiqlExpress } = require('graphql-server-express');
+const { graphqlExpress, graphiqlExpress } = require ('apollo-server-express');
 
 const graphqlHTTP = require('express-graphql');
 
@@ -19,7 +19,7 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
 
     // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE, FETCH');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
     // Request headers you wish to allow
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -36,10 +36,19 @@ const tasksSchema = require('./schemas/tasksSchema');//report schema
 const reportSchema = require('./schemas/reportSchema');//report schema 
 const userSchema = require('./schemas/userSchema');// user schemma
 
+const Chalk = require('chalk');
+const cors = require('cors');
+
+//app.use('/graphi',express.static(`${__dirname}/public`)); // we could have just used the `graphiql` option: https://github.com/graphql/express-graphql
+
+app.use('/graphql', cors(), graphqlHTTP(() => ({
+    schema: tasksSchema
+})));
+
 //User data conection 
-app.use('/Api', bodyParser.json(), graphqlExpress({schema:userSchema}));
-app.use('/ReportApi', bodyParser.json(), graphqlExpress({schema:reportSchema}));
-app.use('/TaskstApi', bodyParser.json(), graphqlExpress({schema:tasksSchema}));
+app.use('/Api', cors(), graphqlExpress({schema:userSchema}));
+app.use('/ReportApi', cors(), graphqlExpress({schema:reportSchema}));
+app.use('/TaskstApi', cors(), graphqlExpress({schema:tasksSchema}));
 app.use('/UserGraphiql', graphiqlExpress({endpointURL: '/Api'}));
 
 app.listen(4000, () => console.log('Now browse to localhost:4000/graphiql'));

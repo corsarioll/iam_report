@@ -6,7 +6,8 @@ const { GQC } = require('graphql-compose');
 
 const taskSchema = new mongoose.Schema({
   done: Boolean, // standard types
-  label:String
+  label:String,
+	id:String
 });
 const taskModel = mongoose.model('taskModel', taskSchema);
 

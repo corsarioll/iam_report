@@ -270,8 +270,8 @@
 				}
 			},
 			saveReport() {
+				console.log(REPORT_CREATE);
 				var label = 'example';
-
 				this.$apollo.mutate({
 					mutation: REPORT_CREATE,
 					variables: {
@@ -280,7 +280,7 @@
 				}).then((data) => {
 					console.log(data);
 				}).catch((error) => {
-					console.log(date);
+					console.log(error);
 				})
 				
 
