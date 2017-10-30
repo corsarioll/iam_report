@@ -8,18 +8,33 @@ import VueCharts from 'vue-chartjs';
 import { Bar, Line } from 'vue-chartjs';
 import VueResource from 'vue-resource';
 import VueApollo from 'vue-apollo';
-import { ApolloClient, createBatchingNetworkInterface } from 'apollo-client'
+import { ApolloClient, createBatchingNetworkInterface, createNetworkInterface } from 'apollo-client'
 
 // Create the apollo client
 const apolloClient = new ApolloClient({
-  networkInterface: createBatchingNetworkInterface({
-    uri: 'http://localhost:4000/Api',
+  networkInterface: createNetworkInterface({
+    uri: 'http://localhost:4000/graphql',
   }),
   connectToDevTools: true,
 });
 
+//Apollo provider 
+const apolloProvider = new VueApollo({
+  defaultClient: apolloClient,
+})
+
+/*const networkInterface = createNetworkInterface({ uri: 'http://localhost:4000/Api'});
+
+const apolloClient = new ApolloClient({
+  networkInterface,
+})*/
+
 // Install the vue plugin
 Vue.use(VueApollo);
+
+/*const apolloProvider = new VueApollo({
+  defaultClient: apolloClient,
+})*/
 
 //import charts component 
 import BarChart from './components/Charts/BarChart';
@@ -71,8 +86,10 @@ const router = new VueRouter({
 	mode:'history'
 });
 
+
 new Vue({
   el: '#app',
+	apolloProvider,
   render: h => h(App),
 	router:router
 })

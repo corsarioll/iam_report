@@ -189,7 +189,7 @@
 </template>
 
 <script>
-	import axios from 'axios';
+	import REPORT_CREATE from '../../../graphql/reportAdd.gql';
   export default {
 		data () {
       return {
@@ -236,6 +236,9 @@
         ]
     	}
 		},
+		apollo: {
+			
+		},
     methods: {
       submit () {
         if (this.$refs.form.validate()) {
@@ -256,61 +259,6 @@
 					this.clear ();
         }
       },
-			saveReport(){
-				var tem = `mutation{
-					reportCreate(record:{
-						tasks:{
-							completed:[
-
-							]
-						}
-					})
-				}`;
-				var tem = `mutation{
-								reportCreate(record:{
-									tasks:{
-										completed:[
-											{
-												reference:"asdasda",
-												description:"asdas asd asd asdasd",
-												status:"Completed"
-											}
-										],
-										progress:[
-											{
-												reference:"asdasda 2",
-												description:"asdas asd asd asdasd 2",
-												status:"In progress"
-											}
-										],
-										planned:[
-											{
-												reference:"asdasda 3",
-												description:"asdas asd asd asdasd 3",
-												status:"Planned"
-											}
-										],
-									}
-								}){
-									record{
-										tasks{
-											completed{
-												status
-											}
-										}
-									}
-								}
-							}`;
-				console.log(tem);
-		
-				axios.post(`http://localhost:4000/UserApi`,tem).then(response => {
-					console.log(response);
-				})
-				.catch(e => {
-					console.log(e);
-					//this.errors.push(e);
-				})
-			},
       clear () {
         this.$refs.form.reset()
       },
@@ -320,6 +268,22 @@
 						list.splice(i, 1);
 					}
 				}
+			},
+			saveReport() {
+				console.log(REPORT_CREATE);
+				var label = 'example';
+				this.$apollo.mutate({
+					mutation: REPORT_CREATE,
+					variables: {
+						label
+					}
+				}).then((data) => {
+					console.log(data);
+				}).catch((error) => {
+					console.log(error);
+				})
+				
+
 			}
     }
   }
