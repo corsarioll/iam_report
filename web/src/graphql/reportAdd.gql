@@ -1,9 +1,13 @@
-mutation taskCreate ($label: String!) {
-	taskCreate (record:{done: false, label: $label}) {
+mutation reportCreate ($tasks:Object, $name:String!) {
+	reportCreate (record:{tasks:$tasks,name:$name}) {
 		record{
-      done
-			label
-			id
+			tasks{
+				completed{
+					reference
+				}
+			}
+			name
+			_id
     }
 	}
 }

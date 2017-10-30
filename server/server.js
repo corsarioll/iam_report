@@ -45,10 +45,18 @@ app.use('/graphql', cors(), graphqlHTTP(() => ({
     schema: tasksSchema
 })));
 
+app.use('/Api', cors(), graphqlHTTP(() => ({
+    schema: userSchema
+})));
+
+app.use('/ReportApi', cors(), graphqlHTTP(() => ({
+    schema: reportSchema
+})));
+
 //User data conection 
-app.use('/Api', cors(), graphqlExpress({schema:userSchema}));
-app.use('/ReportApi', cors(), graphqlExpress({schema:reportSchema}));
-app.use('/TaskstApi', cors(), graphqlExpress({schema:tasksSchema}));
+/*app.use('/Api', cors(), graphqlHTTP({schema:userSchema}));
+app.use('/ReportApi', cors(), graphqlHTTP({schema:reportSchema}));
+app.use('/TaskstApi', cors(), graphqlHTTP({schema:tasksSchema}));*/
 app.use('/UserGraphiql', graphiqlExpress({endpointURL: '/Api'}));
 
 app.listen(4000, () => console.log('Now browse to localhost:4000/graphiql'));
