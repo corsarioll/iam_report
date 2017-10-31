@@ -4,6 +4,6 @@ export default{
         getRole: (parent, args, {models}) => models.findOne(args)
     },
     Mutation:{
-        createRole: (parent, args, {models}) => models.Role.create(args)
+        createRole: (parent, args, {models}) => models.Role.create(args.role)
     }
 }
