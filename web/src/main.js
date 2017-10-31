@@ -13,7 +13,7 @@ import { ApolloClient, createBatchingNetworkInterface, createNetworkInterface } 
 // Create the apollo client
 const apolloClient = new ApolloClient({
   networkInterface: createNetworkInterface({
-    uri: 'http://localhost:4000/Api',
+    uri: 'http://localhost:5000/graphql',
   }),
   connectToDevTools: true,
 });

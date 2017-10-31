@@ -3,7 +3,9 @@ import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
 import mongoose from 'mongoose';
+const graphqlHTTP = require('express-graphql');
 mongoose.Promise = global.Promise;
+
 
 import models from './models'
 
@@ -17,12 +19,14 @@ const schema = makeExecutableSchema({
   typeDefs,
   resolvers
 });
-const PORT = 4000;
+const PORT = 5000;
 
 const app = express();
 
 // bodyParser is needed just for POST.
-app.use('/graphql', bodyParser.json(), graphqlExpress({
+const cors = require('cors');
+
+app.use('/graphql', cors(), graphqlHTTP({
   schema,
   context: {
     models,
@@ -103,9 +107,8 @@ app.use('/ReportApi', cors(), graphqlHTTP(() => ({
 //User data conection 
 /*app.use('/Api', cors(), graphqlHTTP({schema:userSchema}));
 app.use('/ReportApi', cors(), graphqlHTTP({schema:reportSchema}));
-app.use('/TaskstApi', cors(), graphqlHTTP({schema:tasksSchema}));*/
+app.use('/TaskstApi', cors(), graphqlHTTP({schema:tasksSchema}));
 app.use('/UserGraphiql', graphiqlExpress({endpointURL: '/Api'}));
 
 app.listen(4000, () => console.log('Now browse to localhost:4000/graphiql'));
-
 */
