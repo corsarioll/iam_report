@@ -1,64 +1,11 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-import { makeExecutableSchema } from 'graphql-tools';
-import mongoose from 'mongoose';
-mongoose.Promise = global.Promise;
-
-import models from './models'
-
-//mezclar todos los archivos de carpetas de types y resolvers
-import path from 'path';
-import { fileLoader, mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
-const typeDefs = mergeTypes(fileLoader(path.join(__dirname, './types')));
-const resolvers = mergeResolvers(fileLoader(path.join(__dirname, './resolvers')));
-
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers
-});
-const PORT = 4000;
-
-const app = express();
-
-// bodyParser is needed just for POST.
-app.use('/graphql', bodyParser.json(), graphqlExpress({
-  schema,
-  context: {
-    models,
-    user: {
-      _id: 1, username: 'bob'
-    }
-  }
-}));
-app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); // if you want GraphiQL enabled
-
-
-mongoose.connect('mongodb://localhost/report', {useMongoClient: true}).then(
-  () => {
-    console.log('Connected to Mongo!!!!')
-    app.listen(PORT, ()=>{
-      console.log('Running GRAPHQL server on port '+ PORT);
-    });
-  }
-)
-
-/*
-
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require ('apollo-server-express');
-
 const graphqlHTTP = require('express-graphql');
-
-//Conect to mongoDB
-mongoose.connect('mongodb://localhost/report', { useMongoClient: true, promiseLibrary: global.Promise });
 
 //app server setup
 var app = express();
-
-//Schemas 
 
 app.use(function (req, res, next) {
 
@@ -79,25 +26,31 @@ app.use(function (req, res, next) {
     next();
 });
 
-const tasksSchema = require('./schemas/tasksSchema');//report schema 
-const reportSchema = require('./schemas/reportSchema');//report schema 
-const userSchema = require('./schemas/userSchema');// user schemma
-
 const Chalk = require('chalk');
 const cors = require('cors');
 
 //app.use('/graphi',express.static(`${__dirname}/public`)); // we could have just used the `graphiql` option: https://github.com/graphql/express-graphql
 
+
+const schemas = require('./schemas/index');
+
+// Front end client
 app.use('/graphql', cors(), graphqlHTTP(() => ({
-    schema: tasksSchema
+  schema: schemas
 })));
 
 //User data conection 
-app.use('/Api', cors(), graphqlExpress({schema:userSchema}));
-app.use('/ReportApi', cors(), graphqlExpress({schema:reportSchema}));
-app.use('/TaskstApi', cors(), graphqlExpress({schema:tasksSchema}));
-app.use('/UserGraphiql', graphiqlExpress({endpointURL: '/Api'}));
+app.use('/Api', bodyParser.json(), graphqlExpress({schema:schemas}));
+app.use('/graphiql', graphiqlExpress({endpointURL: '/Api'}));
 
-app.listen(4000, () => console.log('Now browse to localhost:4000/graphiql'));
 
-*/
+const PORT = 4000;
+
+mongoose.connect('mongodb://localhost/report', {useMongoClient: true, promiseLibrary: global.Promise}).then(
+  () => {
+    console.log('Connected to Mongo!!!!')
+    app.listen(PORT, ()=>{
+      console.log('Running GRAPHQL server on port '+ PORT);
+    });
+  }
+)
