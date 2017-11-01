@@ -189,7 +189,8 @@
 </template>
 
 <script>
-	import REPORT_CREATE from '../../../graphql/reportAdd.gql';
+	//import REPORT_CREATE from '../../../graphql/reportAdd.gql';
+	import REPORT_CREATE from '../../../graphql/reportAdd';
   export default {
 		data () {
       return {
@@ -270,20 +271,23 @@
 				}
 			},
 			saveReport() {
-				console.log(REPORT_CREATE);
-				var label = 'example';
-				this.$apollo.mutate({
-					mutation: REPORT_CREATE,
-					variables: {
-						label
+				var report ={
+					email:"corsario@hotmail.com", 
+					password:"asdas", 
+					firstName:"jeisson", 
+					lastName:"lazo", 
+					role:{
+						name:"perro"
 					}
+				} 
+				this.$apollo.mutate({
+					mutation: REPORT_CREATE2(report),
+					variables: report
 				}).then((data) => {
 					console.log(data);
 				}).catch((error) => {
 					console.log(error);
 				})
-				
-
 			}
     }
   }
