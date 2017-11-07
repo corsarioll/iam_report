@@ -23,18 +23,8 @@ const apolloProvider = new VueApollo({
   defaultClient: apolloClient,
 })
 
-/*const networkInterface = createNetworkInterface({ uri: 'http://localhost:4000/Api'});
-
-const apolloClient = new ApolloClient({
-  networkInterface,
-})*/
-
 // Install the vue plugin
 Vue.use(VueApollo);
-
-/*const apolloProvider = new VueApollo({
-  defaultClient: apolloClient,
-})*/
 
 //import charts component 
 import BarChart from './components/Charts/BarChart';
@@ -52,6 +42,9 @@ Vue.component('PieChart',PieChart);
 Vue.component('RadarChart',RadarChart);
 Vue.component('PolarChart',PolarChart);
 Vue.component('BubbleChart',BubbleChart);
+//declarate the calendar component
+import Calendar from './components/Utilities/Calendar/Calendar.vue';
+Vue.component('Calendar',Calendar);
 
 //Router
 import Routes from'./routes';

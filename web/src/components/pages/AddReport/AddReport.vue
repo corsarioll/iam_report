@@ -190,7 +190,7 @@
 
 <script>
 	//import REPORT_CREATE from '../../../graphql/reportAdd.gql';
-	import REPORT_CREATE from '../../../graphql/reportAdd';
+	import REPORT_CREATE from '../../../graphql/userAdd';
   export default {
 		data () {
       return {
