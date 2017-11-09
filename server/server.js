@@ -39,16 +39,12 @@ app.use('/graphql', cors(), graphqlHTTP(() => ({
   schema: schemas
 })));
 
-app.use('/Api', cors(), graphqlHTTP(() => ({
-    schema: userSchema
-})));
+//app.use('/UserApi', bodyParser.json(), graphqlExpress({schema:userSchema}));
 
-app.use('/ReportApi', cors(), graphqlHTTP(() => ({
-    schema: reportSchema
-})));
+//app.use('/ReportApi', cors(), graphqlExpress({schema:reportSchema}));
 
 //User data conection 
-app.use('/Api', bodyParser.json(), graphqlExpress({schema:schemas}));
+app.use('/Api',  bodyParser.json(), graphqlExpress({schema:schemas}));
 app.use('/graphiql', graphiqlExpress({endpointURL: '/Api'}));
 
 

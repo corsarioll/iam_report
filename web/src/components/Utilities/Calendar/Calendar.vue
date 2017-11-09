@@ -57,7 +57,7 @@
 				<div class="day-label">
 					<p>Sat</p>
 				</div>
-				<div class="day" v-for="item in daysArray" :key="item.id" v-bind:class="{block:item.over,active:select == item.id}" v-on:click="select = item.id; date.day = item.day">
+				<div class="day" v-for="item in daysArray" :key="item.id" v-bind:class="{block:item.over,active:select == item.id}" v-on:click="select = item.id; date.day = item.day;dayClick(item)">
 					
 					<h6>{{item.day}}</h6>
 					<div class="text-xs-center" v-if="!item.over">
@@ -79,13 +79,12 @@
 				<div class="report-list">
 					<v-list two-line subheader>
 						<v-subheader inset>Reports	</v-subheader>
-						<v-list-tile avatar v-for="item in items" v-bind:key="item.title" @click="">
+						<v-list-tile avatar v-for="item in taskList" v-bind:key="item.title" @click="">
 							<v-list-tile-avatar>
 								<v-icon v-bind:class="[item.iconClass]">assignment_ind</v-icon>
 							</v-list-tile-avatar>
 							<v-list-tile-content>
 								<v-list-tile-title>{{ item.name }}</v-list-tile-title>
-								<v-list-tile-sub-title>{{ item.reporter }}</v-list-tile-sub-title>
 							</v-list-tile-content>
 							<v-list-tile-action>
 								<v-btn icon ripple>
@@ -112,11 +111,7 @@
 					month: currentTime.getMonth() + 1,
 					day: currentTime.getDate()
 				},
-				items: [
-          { iconClass: 'grey lighten-1 white--text', name: 'Photos', reporter: 'Daniel 1' },
-          { iconClass: 'grey lighten-1 white--text', name: 'Recipes', reporter: 'Daniel 2' },
-          { iconClass: 'grey lighten-1 white--text', name: 'Work', reporter: 'Diego' },
-        ],
+				taskList: [],
 				months:[
 					{text:'January',id:1},
 					{text:'February',id:2},
@@ -171,7 +166,9 @@
 						day:i+1,
 						over:false,
 						id:this.daysArray.length,
-						items:['sad','asd','asas']
+						items:[
+							{name:"daniel"}
+						]
 					})
 				}
 				//display select te actual day 
@@ -181,8 +178,8 @@
 					}
 				}
 			},
-			dayClick (){
-				
+			dayClick (day){
+				this.taskList = day.items;
 			}
 		},
 		mounted (){
