@@ -23,7 +23,6 @@
 										label="Proyect admin"
 										autocomplete
 										item-text="firstName"
-										item-value="email"
 					></v-select>
 				</v-flex>
 				
@@ -36,8 +35,8 @@
 										chips
 										hint="What are the user for this proyect"
 										item-text="firstName"
-										item-value="email"
 										persistent-hint
+										item-value="_id"
 					></v-select>
 				</v-flex>
 				<v-flex xs12>
@@ -77,31 +76,49 @@
 							admin: ''
 					}
 				},
-        userList: [
-						{firstName:"dichu",LastName:"pamelo" ,email:'dichu@asd' },
-						{firstName:"dichu 1",LastName:"pamelo 1" ,email:'dichu@asd1' },
-						{firstName:"dichu 2",LastName:"pamelo 2" ,email:'dichu@asd2' },
-						{firstName:"dichu 3",LastName:"pamelo 3" ,email:'dichu@asd3' },
-						{firstName:"dichu 4",LastName:"pamelo 4" ,email:'dichu@asd4' },
-        ]
+        userList: []
 			}
 		},
 		methods: {
 			saveProyect() {
-					var proyect ={
-						name:this.addProyect.value.name
+				var usersTem = [];
+					for (var i = 0; i<this.addProyect.value.users.length;i++){
+						for (var e = 0; e< this.userList.length; e++){
+							if(this.addProyect.value.users[i] == this.userList[e]._id){
+								usersTem.push({
+									firstName:this.userList[e].firstName,
+									email:this.userList[e].email,
+									LastName:this.userList[e].LastName,
+									_id:this.userList[e]._id
+								})
+							}
+						}
 					}
-					console.log(proyect)
-					console.log(PROJECT_ADD(proyect))
-					this.$apollo.mutate({
-						mutation: PROJECT_ADD(proyect),
-						variables: proyect
-					}).then((data) => {
-						console.log(data);
-					}).catch((error) => {
-						console.log(error);
-					})
+				var proyect ={
+					name:this.addProyect.value.name,
+					users:usersTem
 				}
+				
+				this.$apollo.mutate({
+					mutation: PROJECT_ADD(proyect),
+					variables: proyect
+				}).then((data) => {
+					console.log(data)
+				}).catch((error) => {
+					console.log(error)
+				})
+			},
+			loadUsers() {
+				this.$apollo.query({
+					query:USERS_GET()
+				}).then((data) => {
+					this.userList = data.data.userMany
+				}).catch((error) => {
+				})
+			}
+		},
+		created (){
+			this.loadUsers()
 		}
 	}
 </script>

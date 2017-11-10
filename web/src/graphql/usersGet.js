@@ -1,14 +1,16 @@
 import gql from 'graphql-tag';
 
-const module = function(data){
+const module = function(){
 	
-	const test = gql`{
-    user() {
-      firstName
-      lastName
-    }
-  }`;
-	return test;	
+	const users = gql`{
+		userMany{
+			firstName,
+			email,
+			LastName,
+			_id
+		}
+	}`;
+	return users;	
 }
 
 export default module;
