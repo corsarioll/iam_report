@@ -42,7 +42,7 @@
 				</v-flex>
 				<v-flex xs12>
 					<div class="actions">
-						<v-btn color="primary">Save</v-btn>
+						<v-btn color="primary" v-on:click="saveProyect()">Save</v-btn>
 					</div>
 				</v-flex>
 				
@@ -54,6 +54,7 @@
 </template>
 <script>
 	import USERS_GET from '../../../graphql/usersGet';
+	import PROJECT_ADD from '../../../graphql/projectAdd';
   export default {
 		data () {
       return {
@@ -84,6 +85,23 @@
 						{firstName:"dichu 4",LastName:"pamelo 4" ,email:'dichu@asd4' },
         ]
 			}
+		},
+		methods: {
+			saveProyect() {
+					var proyect ={
+						name:this.addProyect.value.name
+					}
+					console.log(proyect)
+					console.log(PROJECT_ADD(proyect))
+					this.$apollo.mutate({
+						mutation: PROJECT_ADD(proyect),
+						variables: proyect
+					}).then((data) => {
+						console.log(data);
+					}).catch((error) => {
+						console.log(error);
+					})
+				}
 		}
 	}
 </script>
