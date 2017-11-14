@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<v-container fluid>
 		<v-layout row wrap>
 			<v-flex xs12>
 				<h4>Add Proyect</h4>
@@ -35,10 +35,10 @@
 										chips
 										hint="What are the user for this proyect"
 										item-text="firstName"
-										persistent-hint
 										item-value="_id"
 					></v-select>
 				</v-flex>
+				
 				<v-flex xs12>
 					<div class="actions">
 						<v-btn color="primary" v-on:click="saveProyect()">Save</v-btn>
@@ -47,9 +47,8 @@
 				
 			</v-layout>
 		</v-form>
-	
-	</div>
-
+		<Alert v-bind:snackdata="snackbar"></Alert>
+	</v-container>
 </template>
 <script>
 	import USERS_GET from '../../../graphql/usersGet';
@@ -76,7 +75,14 @@
 							admin: ''
 					}
 				},
-        userList: []
+        userList: [],
+				snackbar:{
+					snackbar: false,
+					color: '',
+					mode: '',
+					timeout: 6000,
+					text: 'Hello, I\'m a snackbar'
+				}
 			}
 		},
 		methods: {
@@ -103,9 +109,15 @@
 					mutation: PROJECT_ADD(proyect),
 					variables: proyect
 				}).then((data) => {
-					console.log(data)
+					
+					this.snackbar.color = 'success'
+					this.snackbar.snackbar = true
+					this.snackbar.text = 'Added record'
+					
 				}).catch((error) => {
-					console.log(error)
+					this.snackbar.color = 'error'
+					this.snackbar.snackbar =true
+					this.snackbar.text ='There was an error adding the record'
 				})
 			},
 			loadUsers() {

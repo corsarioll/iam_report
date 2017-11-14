@@ -45,6 +45,9 @@ Vue.component('BubbleChart',BubbleChart);
 //declarate the calendar component
 import Calendar from './components/Utilities/Calendar/Calendar.vue';
 Vue.component('Calendar',Calendar);
+//declarate the alert component
+import Alert from './components/Utilities/Alerts/Alerts.vue';
+Vue.component('Alert',Alert);
 
 //Router
 import Routes from'./routes';

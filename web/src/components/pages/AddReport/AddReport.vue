@@ -1,5 +1,7 @@
 <template>
+					
 	<div>
+
 		<v-layout row wrap>
 			<v-flex xs12>
 				<h4>Add your report</h4>

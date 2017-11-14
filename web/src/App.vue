@@ -34,12 +34,13 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Toolbar</v-toolbar-title>
     </v-toolbar>
-    <main>
-      <v-container fluid>	
-        <router-view></router-view>
-        <!--v-router-->
-      </v-container>
-    </main>
+		<main>
+      <v-content>	
+				<v-container fluid>
+        	<router-view></router-view>
+				</v-container>
+      </v-content>
+		</main>
 		<app-login></app-login>
   </v-app>
 </template>
