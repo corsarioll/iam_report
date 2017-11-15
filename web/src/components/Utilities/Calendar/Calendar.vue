@@ -274,5 +274,9 @@
 	/*Styles corrections */
 	.badge__badge.primary span{
 		z-index: 1;
+    position: absolute;
+    left: -15px;
+    top: -9px;
+    color: #fff;
 	}
 </style>

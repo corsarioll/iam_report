@@ -7,6 +7,7 @@ const ReportSchema = require('./report');
 const ProjectSchema = new mongoose.Schema({
   name: String,
   users: [UserSchema],
+  admin: UserSchema,
   tasks: [TaskSchema],
   reports: [ReportSchema]
 });

@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid>
+	<div>
 		<v-layout row wrap>
 			<v-flex xs12>
 				<h4>Add Proyect</h4>
@@ -48,7 +48,7 @@
 			</v-layout>
 		</v-form>
 		<Alert v-bind:snackdata="snackbar"></Alert>
-	</v-container>
+	</div>
 </template>
 <script>
 	import USERS_GET from '../../../graphql/usersGet';
@@ -72,7 +72,7 @@
 					value:{
 							name: '',
         			users: [],
-							admin: ''
+							admin: {}
 					}
 				},
         userList: [],
@@ -102,18 +102,24 @@
 					}
 				var proyect ={
 					name:this.addProyect.value.name,
-					users:usersTem
+					users:usersTem,
+					admin:this.addProyect.value.admin
 				}
 				
 				this.$apollo.mutate({
 					mutation: PROJECT_ADD(proyect),
 					variables: proyect
 				}).then((data) => {
-					
-					this.snackbar.color = 'success'
-					this.snackbar.snackbar = true
-					this.snackbar.text = 'Added record'
-					
+					this.addProyect.value = 
+					this.snackbar.color='success'
+					this.snackbar.snackbar=true
+					this.snackbar.text='Added record'
+					this.addProyect.value = {	
+							name: '',
+        			users: [],
+							admin: {}
+					}
+				
 				}).catch((error) => {
 					this.snackbar.color = 'error'
 					this.snackbar.snackbar =true

@@ -9,6 +9,8 @@ import { Bar, Line } from 'vue-chartjs';
 import VueResource from 'vue-resource';
 import VueApollo from 'vue-apollo';
 import { ApolloClient, createBatchingNetworkInterface, createNetworkInterface } from 'apollo-client'
+//import '/node_modules/vuetify/dist/vuetify.min.css'
+import {store} from './store/store';	
 
 // Create the apollo client
 const apolloClient = new ApolloClient({
@@ -84,6 +86,7 @@ const router = new VueRouter({
 
 
 new Vue({
+	store:store,
   el: '#app',
 	apolloProvider,
   render: h => h(App),
