@@ -7,9 +7,9 @@ const TaskSchema = new mongoose.Schema({
     description: String,
     project: ProjectSchema,
     assignedTo: UserSchema,
-	status: {
+		status: {
         type: String,
-        enum : ['NEW','IN_PROGRESS', 'COMPLETED'],
+        enum : ['PLANNED','IN_PROGRESS', 'COMPLETED'],
         default: 'COMPLETED'
     }
 });

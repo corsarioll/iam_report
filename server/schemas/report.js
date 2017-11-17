@@ -11,7 +11,8 @@ const ReportSchema = new mongoose.Schema({
 		date: { 
 			type: Date, 
 			default: Date.now 
-		}
+		},
+		importantInfo: String
 });
 
 module.exports = ReportSchema

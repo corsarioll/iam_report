@@ -1,17 +1,14 @@
 import gql from 'graphql-tag';
 
 const module = function(data){
-		
+	
+	var tasks = JSON.stringify(data.users)
+	tasks = tasks.replace(/\"([^(\")"]+)\":/g,"$1:");
+	
 	const report = gql`mutation{
-		createUser(user:{
-			name:"${data.name}",
-			project:"${data.project}",
-			tasks:"${data.tasks}",
-			reporter:"${data.reporter}",
-			date:"${data.date}",
+		ReportCreate(record:{
 		}){
-			name
-			date
+			tasks:${tasks}
 		}
 	}`;
 	return report;

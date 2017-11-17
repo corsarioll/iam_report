@@ -54,12 +54,13 @@
 		</v-toolbar>
 			
 		<v-data-table
-				v-bind:headers="headers"
-				:items="tasks.completed"
-				hide-actions
-				class="elevation-1"
+									v-bind:headers="headers"
+									:items="tasks"
+									hide-actions
+									class="elevation-1"
+									search="COMPLETED"
 			>
-			<template slot="items" scope="props">
+			<template slot="items" scope="props" >
 				<td>{{ props.item.reference }}</td>
 				<td class="text-xs-left">{{ props.item.description }}</td>
 				<td class="text-xs-right"><v-icon v-on:click="remove(props.item,tasks.completed)">close</v-icon></td>
@@ -71,12 +72,13 @@
 		</v-toolbar>
 			
 		<v-data-table
-				v-bind:headers="headers"
-				:items="tasks.progress"
-				hide-actions
-				class="elevation-1"
+									v-bind:headers="headers"
+									:items="tasks"
+									hide-actions
+									class="elevation-1"
+									search="IN_PROGRESS"
 			>
-			<template slot="items" scope="props">
+			<template slot="items" scope="props" >
 				<td>{{ props.item.reference }}</td>
 				<td class="text-xs-left">{{ props.item.description }}</td>
 				<td class="text-xs-right"><v-icon v-on:click="remove(props.item,tasks.progress)">close</v-icon></td>
@@ -88,111 +90,106 @@
 		</v-toolbar>
 			
 		<v-data-table
-				v-bind:headers="headers"
-				:items="tasks.planned"
-				hide-actions
-				class="elevation-1"
+									v-bind:headers="headers"
+									:items="tasks"
+									hide-actions
+									class="elevation-1"
+									search="PLANNED"
 			>
-			<template slot="items" scope="props">
+			<template slot="items" scope="props" >
 				<td>{{ props.item.reference }}</td>
 				<td class="text-xs-left">{{ props.item.description }}</td>
 				<td class="text-xs-right"><v-icon v-on:click="remove(props.item,tasks.planned)">close</v-icon></td>
 			</template>
 		</v-data-table>
 
-		<v-dialog v-model="dialog" persistent max-width="700px" scrollable>
-      <v-btn color="primary" dark slot="activator" :disabled="tasks.completed.length < 1">Generate report</v-btn>
-      <v-card>
-        <v-card-title>
-          <span class="headline">Add Report</span>
-        </v-card-title>
-        <v-card-text>
-					<h6>Complete</h6>
-					<v-list two-line>
-						<template v-for="(item, index) in tasks.completed">
-							<v-list-tile
-								ripple
-								:key="item.title"
-							>
-								<v-list-tile-content>
-									<v-list-tile-title>{{ item.reference }}</v-list-tile-title>
-									<v-list-tile-sub-title class="grey--text text--darken-4">{{ item.description }}</v-list-tile-sub-title>
-								</v-list-tile-content>
-								<v-list-tile-action>
-									<v-list-tile-action-text></v-list-tile-action-text>
-								</v-list-tile-action>
-							</v-list-tile>
-							<v-divider v-if="index + 1 < items.length" :key="item.reference"></v-divider>
-						</template>
-					</v-list>
-					<h6>In progress</h6>
-					
-					<v-list two-line>
-						<template v-for="(item, index) in tasks.progress">
-							<v-list-tile
-								ripple
-								:key="item.title"
-							>
-								<v-list-tile-content>
-									<v-list-tile-title>{{ item.reference }}</v-list-tile-title>
-									<v-list-tile-sub-title class="grey--text text--darken-4">{{ item.description }}</v-list-tile-sub-title>
-								</v-list-tile-content>
-								<v-list-tile-action>
-									<v-list-tile-action-text></v-list-tile-action-text>
-								</v-list-tile-action>
-							</v-list-tile>
-							<v-divider v-if="index + 1 < items.length" :key="item.reference"></v-divider>
-						</template>
-					</v-list>
-					
-					<h6>Planned</h6>
-					<v-list two-line>
-						<template v-for="(item, index) in tasks.planned">
-							<v-list-tile
-								ripple
-								:key="item.title"
-							>
-								<v-list-tile-content>
-									<v-list-tile-title>{{ item.reference }}</v-list-tile-title>
-									<v-list-tile-sub-title class="grey--text text--darken-4">{{ item.description }}</v-list-tile-sub-title>
-								</v-list-tile-content>
-								<v-list-tile-action>
-									<v-list-tile-action-text></v-list-tile-action-text>
-								</v-list-tile-action>
-							</v-list-tile>
-							<v-divider v-if="index + 1 < items.length" :key="item.reference"></v-divider>
-						</template>
-					</v-list>
-					
-					
-          <v-container grid-list-md>
-            <v-layout wrap>
-							
-              <v-flex xs12>
-								<v-text-field
-									name="input-7-1"
-									label="important information"
-									multi-line
-								></v-text-field>
-							</v-flex>
-							
-            </v-layout>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" flat @click.native="dialog = false" v-on:click="saveReport()">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+ <v-dialog v-model="dialog" max-width="700px">
+		<v-btn color="primary" dark slot="activator" v-bind:class="{disabled :tasks.length > 1}">Generate report</v-btn>
+		<v-card>
+			
+			<v-card-title>
+				<span class="headline">Add Report</span>
+			</v-card-title>
 
+			<v-card-text>
+				<v-container grid-list-md>
+					<v-layout wrap row> 
+						<v-flex xs12>
+							<v-list two-line subheader>
+								<v-subheader>Complete tasks</v-subheader>
+								<template v-for="(item, index) in tasks.completed">
+									<v-list-tile avatar>
+										<v-list-tile-content>
+											<v-list-tile-title>{{ item.reference }}</v-list-tile-title>
+											<v-list-tile-sub-title>{{ item.description }}</v-list-tile-sub-title>
+										</v-list-tile-content>
+									</v-list-tile>
+									<v-divider v-if="index + 1 < tasks.completed.length" :key="item.reference"></v-divider>
+								</template>
+							</v-list>
+						</v-flex>
+						
+						<v-flex xs12>
+							<v-list two-line subheader>
+								<v-subheader>In progress tasks</v-subheader>
+								<template v-for="(item, index) in tasks.progress">
+									<v-list-tile avatar>
+										<v-list-tile-content>
+											<v-list-tile-title>{{ item.reference }}</v-list-tile-title>
+											<v-list-tile-sub-title>{{ item.description }}</v-list-tile-sub-title>
+										</v-list-tile-content>
+									</v-list-tile>
+									<v-divider v-if="index + 1 < tasks.progress.length" :key="item.reference"></v-divider>
+								</template>
+							</v-list>
+						</v-flex>
+						
+						<v-flex xs12>
+								
+							<v-list two-line subheader>
+								<v-subheader>Planned tasks</v-subheader>
+								<template v-for="(item, index) in tasks.planned">
+									<v-list-tile avatar>
+										<v-list-tile-content>
+											<v-list-tile-title>{{ item.reference }}</v-list-tile-title>
+											<v-list-tile-sub-title>{{ item.description }}</v-list-tile-sub-title>
+										</v-list-tile-content>
+									</v-list-tile>
+									<v-divider v-if="index + 1 < tasks.planned.length" :key="item.reference"></v-divider>
+								</template>
+							</v-list>
+							
+						</v-flex>
+						<v-flex xs12>
+							<v-text-field
+														label="Important information"
+														v-model="addTask.value.importantInfo"
+														multi-line
+            ></v-text-field>
+						</v-flex>
+						
+					</v-layout>
+				</v-container>
+			</v-card-text>
+			<v-card-actions>
+				<v-spacer></v-spacer>
+				<v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
+				<v-btn color="blue darken-1" flat @click="saveReport()"> Save</v-btn>
+			</v-card-actions>
+		</v-card>
+	</v-dialog>
+	<Alert v-bind:snackdata="snackbar"></Alert>
 	</div>
 </template>
 
 <script>
 	import REPORT_CREATE from '../../../graphql/reportAdd';
   export default {
+		computed:{
+			project (){
+				return this.$store.state.project
+			}
+		},
 		data () {
       return {
 				dialog: false,
@@ -201,6 +198,7 @@
 						reference: '',
 						description: '',	
 						status: null,
+						importantInfo:''
 					},
 					options: [
 						'Completed',
@@ -217,29 +215,21 @@
 						],
 					}
 				},
-				tasks:{
-					completed:[],
-					progress:[],
-					planned:[]
-				},
+				tasks:[],
 				headers: [
 						{ text: 'Reference', align: 'left',sortable: false,value: 'reference'},
 						{ text: 'Description', sortable: false,value: 'description',align: 'left' },
 						{ text: 'Options', value: 'assigned', align:'right',sortable: false, },
 				],
-				 
 				selected: [2],
-        items: [
-          { action: '15 min', headline: 'Brunch this weekend?', title: 'Ali Connors', subtitle: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?" },
-          { action: '2 hr', headline: 'Summer BBQ', title: 'me, Scrott, Jennifer', subtitle: "Wish I could come, but I'm out of town this weekend." },
-          { action: '6 hr', headline: 'Oui oui', title: 'Sandra Adams', subtitle: "Do you have Paris recommendations? Have you ever been?" },
-          { action: '12 hr', headline: 'Birthday gift', title: 'Trevor Hansen', subtitle: "Have any ideas about what we should get Heidi for her birthday?" },
-          { action: '18hr', headline: 'Recipe to try', title: 'Britta Holt', subtitle: "We should eat this: Grate, Squash, Corn, and tomatillo Tacos." },
-        ]
+				snackbar:{
+					snackbar: false,
+					color: '',
+					mode: '',
+					timeout: 6000,
+					text: 'Hello, I\'m a snackbar'
+				}
     	}
-		},
-		apollo: {
-			
 		},
     methods: {
       submit () {
@@ -248,13 +238,25 @@
 					
 					switch(this.addTask.value.status) {
 						case 'Completed':
-							this.tasks.completed.push(copy);
+							this.tasks.push({
+								reference: this.addTask.value.reference,
+								description: this.addTask.value.description,
+								status:'COMPLETED'
+							})
 							break;
 						case 'In progress':
-							this.tasks.progress.push(copy);
+							this.tasks.push({
+								reference: this.addTask.value.reference,
+								description: this.addTask.value.description,
+								status:'IN_PROGRESS'
+							})
 							break;
 						case 'Planned':
-							this.tasks.planned.push(copy);
+							this.tasks.push({
+								reference: this.addTask.value.reference,
+								description: this.addTask.value.description,
+								status:'PLANNED'
+							})
 							break;
 						default:
 					}
@@ -272,20 +274,24 @@
 				}
 			},
 			saveReport() {
+				console.log()
 				var report ={
 					name:"test",
-					//project:,
+					importantInfo:this.addTask.value.importantInfo,
 					tasks:this.tasks,
+					project:this.project
 					//reporter:,
 					//date:,
 				} 
+				console.log(REPORT_CREATE(report));
 				this.$apollo.mutate({
 					mutation: REPORT_CREATE(report),
 					variables: report
 				}).then((data) => {
-					console.log(data);
+					console.log(data)
+					this.dialog = false
 				}).catch((error) => {
-					console.log(error);
+					console.log(error)
 				})
 			}
     }

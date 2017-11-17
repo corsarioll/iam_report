@@ -47,7 +47,7 @@
     </v-navigation-drawer>
     <v-toolbar class="indigo darken-4" fixed dark app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Toolbar</v-toolbar-title>
+      <v-toolbar-title>{{project.name}}</v-toolbar-title>
     </v-toolbar>
 		<v-content>	
 			<v-container fluid>
@@ -63,6 +63,11 @@
 	import login from './components/Utilities/LoginModal/LoginModal.vue';
 	
 	export default {
+		computed:{
+			project (){
+				return this.$store.state.project
+			}
+		},
 		components:{
 			"app-login":login
 		},
