@@ -46,7 +46,7 @@
 		data () {
 			return {
 				proyectList :[],
-				selectProject :0 
+				selectProject :{} 
 			}
 		},
 		methods: {

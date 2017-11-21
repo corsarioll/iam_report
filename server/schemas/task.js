@@ -9,7 +9,6 @@ const TaskSchema = new mongoose.Schema({
     assignedTo: UserSchema,
 		status: {
         type: String,
-        enum : ['PLANNED','IN_PROGRESS', 'COMPLETED'],
         default: 'COMPLETED'
     }
 });

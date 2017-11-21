@@ -117,14 +117,14 @@
 						<v-flex xs12>
 							<v-list two-line subheader>
 								<v-subheader>Complete tasks</v-subheader>
-								<template v-for="(item, index) in tasks.completed">
-									<v-list-tile avatar>
+								<template v-for="(item, index) in tasks">
+									<v-list-tile avatar v-if="item.status == 'COMPLETED'">
 										<v-list-tile-content>
 											<v-list-tile-title>{{ item.reference }}</v-list-tile-title>
 											<v-list-tile-sub-title>{{ item.description }}</v-list-tile-sub-title>
 										</v-list-tile-content>
 									</v-list-tile>
-									<v-divider v-if="index + 1 < tasks.completed.length" :key="item.reference"></v-divider>
+									<v-divider v-if="index + 1 < tasks.length" :key="item.reference"></v-divider>
 								</template>
 							</v-list>
 						</v-flex>
@@ -132,14 +132,14 @@
 						<v-flex xs12>
 							<v-list two-line subheader>
 								<v-subheader>In progress tasks</v-subheader>
-								<template v-for="(item, index) in tasks.progress">
-									<v-list-tile avatar>
+								<template v-for="(item, index) in tasks">
+									<v-list-tile avatar v-if="item.status == 'IN_PROGRESS'">
 										<v-list-tile-content>
 											<v-list-tile-title>{{ item.reference }}</v-list-tile-title>
 											<v-list-tile-sub-title>{{ item.description }}</v-list-tile-sub-title>
 										</v-list-tile-content>
 									</v-list-tile>
-									<v-divider v-if="index + 1 < tasks.progress.length" :key="item.reference"></v-divider>
+									<v-divider v-if="index + 1 < tasks.length" :key="item.reference"></v-divider>
 								</template>
 							</v-list>
 						</v-flex>
@@ -148,14 +148,14 @@
 								
 							<v-list two-line subheader>
 								<v-subheader>Planned tasks</v-subheader>
-								<template v-for="(item, index) in tasks.planned">
-									<v-list-tile avatar>
+								<template v-for="(item, index) in tasks">
+									<v-list-tile avatar v-if="item.status == 'PLANNED'">
 										<v-list-tile-content>
 											<v-list-tile-title>{{ item.reference }}</v-list-tile-title>
 											<v-list-tile-sub-title>{{ item.description }}</v-list-tile-sub-title>
 										</v-list-tile-content>
 									</v-list-tile>
-									<v-divider v-if="index + 1 < tasks.planned.length" :key="item.reference"></v-divider>
+									<v-divider v-if="index + 1 < tasks.length" :key="item.reference"></v-divider>
 								</template>
 							</v-list>
 							
@@ -184,10 +184,14 @@
 
 <script>
 	import REPORT_CREATE from '../../../graphql/reportAdd';
+	import USERS_GET from '../../../graphql/usersGet';
   export default {
 		computed:{
 			project (){
 				return this.$store.state.project
+			},
+			selecUser (){
+				return this.$store.state.selecUser
 			}
 		},
 		data () {
@@ -228,7 +232,8 @@
 					mode: '',
 					timeout: 6000,
 					text: 'Hello, I\'m a snackbar'
-				}
+				},
+				userList:[]
     	}
 		},
     methods: {
@@ -274,27 +279,33 @@
 				}
 			},
 			saveReport() {
-				console.log()
 				var report ={
 					name:"test",
 					importantInfo:this.addTask.value.importantInfo,
 					tasks:this.tasks,
-					project:this.project
-					//reporter:,
-					//date:,
+					project:this.project,
+					reporter:this.selecUser
 				} 
-				console.log(REPORT_CREATE(report));
 				this.$apollo.mutate({
 					mutation: REPORT_CREATE(report),
 					variables: report
 				}).then((data) => {
-					console.log(data)
 					this.dialog = false
 				}).catch((error) => {
 					console.log(error)
 				})
 			}
-    }
+    },
+		created() {
+				this.$apollo.query({
+					query:USERS_GET()
+				}).then((data) => {
+					this.userList = data.data.userMany
+					this.$store.commit('selectUser',this.userList[0])
+				}).catch((error) => {
+					console.log(error)
+				})
+			}
   }
 </script>
 

@@ -7,7 +7,8 @@ const module = function(){
 			firstName,
 			email,
 			LastName,
-			_id
+			_id,
+			role
 		}
 	}`;
 	return users;	

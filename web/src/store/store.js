@@ -11,16 +11,23 @@ export const store = new Vuex.Store({
 			"reports" : [],
 			"tasks" : [],
 			"users" : []
+		},
+		selecUser:{
+			_id : "",
+			firstName : "",
+			LastName : "",
+			email : "",
+			password : "",
+			projects : [],
+			role : "",
 		}
 	},
 	mutations:{
 		changeProject (state, newProject) {
     	state.project = newProject
-		}
-	},
-	actions: {
-		changeProject (state, newProject) {
-    	state.project = newProject
-		}
+		},
+		selectUser (state, newUser) {
+    	state.selecUser = newUser
+		},
 	}
 })
