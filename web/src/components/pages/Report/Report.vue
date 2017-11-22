@@ -61,7 +61,13 @@
 	</div>
 </template>
 <script>
+	import PROJECT_REPORTS from '../../../graphql/projectReports';
   export default {
+		computed:{
+			project (){
+				return this.$store.state.project
+			}
+		},
     data () {
       return {
         headers: [
@@ -90,7 +96,16 @@
           },
         ]
       }
-    }
+    },
+		created (){
+			this.$apollo.query({
+				query:PROJECT_REPORTS(this.project)
+			}).then((data) => {
+				console.log(data)
+			}).catch((error) => {
+				console.log(error)
+			})
+		}
   }
 </script>
 <style lang="scss">

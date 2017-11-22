@@ -3,25 +3,17 @@ import gql from 'graphql-tag';
 const module = function(data){
 	
 	var tasks = organize(data.tasks)
-	var project = organize(data.project)
-	var reporter = organize(data.reporter)
+	
 	const report = gql`mutation{
 
 		ReportCreate(record:{
-				name:"test report",
-				project:${project},
-				reporter:{
-					_id:"${data.reporter._id}",
-					LastName:"${data.reporter.LastName}",
-					email:"${data.reporter.email}",
-					firstName:"${data.reporter.firstName}",
-					role:"${data.reporter.role}"
-				},
+				projectId:"${data.project._id}",
+				reporterId:"${data.reporter._id}",
 				importantInfo:"${data.importantInfo}",
 				tasks:${tasks}
 		}){
 		record{
-			name
+			date
 			}
 		}
 	}`;

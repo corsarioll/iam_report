@@ -55,6 +55,8 @@
 			</v-container>
 		</v-content>
 		<app-login></app-login>
+		<Alert v-bind:snackdata="alertSuccess"></Alert>
+		<Alert v-bind:snackdata="alertError"></Alert>
   </v-app>
 </template>
 
@@ -66,6 +68,12 @@
 		computed:{
 			project (){
 				return this.$store.state.project
+			},
+			alertSuccess (){
+				return this.$store.state.alertSuccess
+			},
+			alertError (){
+				return this.$store.state.alertError
 			}
 		},
 		components:{

@@ -20,7 +20,22 @@ export const store = new Vuex.Store({
 			password : "",
 			projects : [],
 			role : "",
-		}
+		},
+		alertSuccess:{
+			snackbar: false,
+			color: 'success',
+			mode: '',
+			timeout: 6000,
+			text: 'Added record'
+		},
+		alertError:{
+			snackbar: false,
+			color: 'error',
+			mode: '',
+			timeout: 6000,
+			text: 'There was an error adding the record'
+		},
+		
 	},
 	mutations:{
 		changeProject (state, newProject) {
@@ -29,5 +44,14 @@ export const store = new Vuex.Store({
 		selectUser (state, newUser) {
     	state.selecUser = newUser
 		},
+		alertSuccess (state, alert) {
+    	//state.snackbar = alert
+			state.alertSuccess.snackbar = true
+		},
+		alertError (state, alert) {
+    	//state.snackbar = alert
+			state.alertError.snackbar = true
+		},
+		
 	}
 })

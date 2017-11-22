@@ -178,7 +178,6 @@
 			</v-card-actions>
 		</v-card>
 	</v-dialog>
-	<Alert v-bind:snackdata="snackbar"></Alert>
 	</div>
 </template>
 
@@ -192,6 +191,12 @@
 			},
 			selecUser (){
 				return this.$store.state.selecUser
+			},
+			alertSuccess (){
+				return this.$store.state.alertSuccess
+			},
+			alertError (){
+				return this.$store.state.alertError
 			}
 		},
 		data () {
@@ -226,13 +231,6 @@
 						{ text: 'Options', value: 'assigned', align:'right',sortable: false, },
 				],
 				selected: [2],
-				snackbar:{
-					snackbar: false,
-					color: '',
-					mode: '',
-					timeout: 6000,
-					text: 'Hello, I\'m a snackbar'
-				},
 				userList:[]
     	}
 		},
@@ -290,9 +288,21 @@
 					mutation: REPORT_CREATE(report),
 					variables: report
 				}).then((data) => {
+
+					var item = {
+						snackbar:true,
+					}
 					this.dialog = false
+					this.$store.commit('alertSuccess',item)
+					
 				}).catch((error) => {
 					console.log(error)
+					var item = {
+						snackbar:true,
+					}
+					this.dialog = false
+					this.$store.commit('alertError',item)
+					
 				})
 			}
     },
