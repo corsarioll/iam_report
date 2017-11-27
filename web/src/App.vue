@@ -63,6 +63,7 @@
 <script>
 	import routes from './routes';
 	import login from './components/Utilities/LoginModal/LoginModal.vue';
+	import PROJECT_GET from './graphql/projectsGet';
 	
 	export default {
 		computed:{
@@ -93,7 +94,16 @@
 			routes
 		],
 		created(){
-			this.menuItems = routes;
+			this.menuItems = routes
+			this.$apollo.query({
+					query:PROJECT_GET()
+			}).then((data) => {
+					this.proyectList = data.data.projectMany
+					this.selectProject = this.proyectList[0];
+					this.$store.commit('changeProject',this.selectProject)
+			}).catch((error) => {
+				
+			})
 		}
 	}
 </script>

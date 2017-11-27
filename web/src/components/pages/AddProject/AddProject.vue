@@ -102,7 +102,7 @@
 					}
 				var proyect ={
 					name:this.addProyect.value.name,
-					users:usersTem,
+					users:this.addProyect.value.users,
 					admin:this.addProyect.value.admin
 				}
 				
@@ -121,6 +121,7 @@
 					}
 				
 				}).catch((error) => {
+					console.log(error)
 					this.snackbar.color = 'error'
 					this.snackbar.snackbar =true
 					this.snackbar.text ='There was an error adding the record'

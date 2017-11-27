@@ -14,8 +14,12 @@ const UserSchema = new mongoose.Schema({
         default: 'ADMIN'
     },
 	projects:{
-		type: [ProjectSchema],
+		type: [String],
 		default: []
+	},
+	active:{
+		type:Boolean,
+		default:false
 	}
 });
 

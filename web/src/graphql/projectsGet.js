@@ -6,13 +6,7 @@ const module = function(){
 		projectMany{
 			name,
 			_id,
-			users {
-				firstName
-				LastName
-				email
-				password
-				role
-			}
+			users
 		}
 	}`;
 	return proyects;	
