@@ -48,17 +48,13 @@
 														label="Role"
 														v-model="addUser.value.role"
 														:items="addUser.options"
-														:rules="[v => !!v || 'Item is required']"
+														:rules="[v => !!v || 'Role is required']"
 														required
 							></v-select>
 						</v-flex>
-						<v-flex xs3>
-							 <v-btn fab dark small color="primary" @click="submit" :disabled="!addUser.validations.valid">
-									<v-icon dark>add</v-icon>
-								</v-btn>
-							<v-btn @click="clear" fab dark small color="primary">
-									<v-icon dark>clear</v-icon>
-							</v-btn>
+						<v-flex xs12>
+							 <v-btn color="primary" @click="submit" :disabled="!addUser.validations.valid">Add User</v-btn>
+							<v-btn @click="clear" color="primary">clear</v-btn>
 						</v-flex>
 
 					</v-layout>
@@ -81,7 +77,7 @@
 						validations:{
 							valid: true,
 							emailRules: [
-								(v) => !!v || 'Emaiil is required',
+								(v) => !!v || 'Email is required',
 							],
 							firstNameRules: [
 								(v) => !!v || 'First name is required',

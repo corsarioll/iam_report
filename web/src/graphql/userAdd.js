@@ -8,6 +8,7 @@ const module = function(data){
 			firstName:"${data.firstName}",
 			lastName:"${data.lastName}",
 			password:"${data.password}",
+			active:false,
 			role:{
 				name:"${data.role.name}"
 			}

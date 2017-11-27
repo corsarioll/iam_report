@@ -8,12 +8,14 @@ const ProjectSchema = require('./project');
 const ReportSchema   = require('./report');
 const TaskSchema    = require('./task');
 const UserSchema    = require('./user');
+const RoleSchema    = require('./role');
 
 //create models
 const ProjectModel  = mongoose.model('Project', ProjectSchema);
 const ReportModel   = mongoose.model('Report', ReportSchema);
 const TaskModel     = mongoose.model('Task', TaskSchema);
 const UserModel     = mongoose.model('User', UserSchema);
+const RoleModel     = mongoose.model('Role', RoleSchema);
 
 //CONVERT MONGOOSE MODEL TO GraphQL PIECES
 const customizationOptions = {}; // left it empty for simplicity, described below
@@ -22,6 +24,7 @@ const ProjectTC = composeWithMongoose(ProjectModel, customizationOptions);
 const ReportTC  = composeWithMongoose(ReportModel, customizationOptions);
 const TaskTC    = composeWithMongoose(TaskModel, customizationOptions);
 const UserTC    = composeWithMongoose(UserModel, customizationOptions);
+const RoleTC    = composeWithMongoose(RoleModel, customizationOptions);
 
 ////////////////////////////////////
 /// Project 
@@ -121,6 +124,30 @@ GQC.rootMutation().addFields({
   userRemoveById: UserTC.getResolver('removeById'),
   userRemoveOne: UserTC.getResolver('removeOne'),
   userRemoveMany: UserTC.getResolver('removeMany')
+});
+//////////////////////////////////////////////////
+// Role
+//////////////////////////////////////////////////
+//Querys
+GQC.rootQuery().addFields({
+  roleById: RoleTC.getResolver('findById'),
+  roleByIds: RoleTC.getResolver('findByIds'),
+  roleOne: RoleTC.getResolver('findOne'),
+  roleMany: RoleTC.getResolver('findMany'),
+  roleCount: RoleTC.getResolver('count'),
+  roleConnection: RoleTC.getResolver('connection'),
+  rolePagination: RoleTC.getResolver('pagination')
+});
+
+//Mutations
+GQC.rootMutation().addFields({
+  roleCreate: RoleTC.getResolver('createOne'),
+  roleUpdateById: RoleTC.getResolver('updateById'),
+  roleUpdateOne: RoleTC.getResolver('updateOne'),
+  roleUpdateMany: RoleTC.getResolver('updateMany'),
+  roleRemoveById: RoleTC.getResolver('removeById'),
+  roleRemoveOne: RoleTC.getResolver('removeOne'),
+  roleRemoveMany: RoleTC.getResolver('removeMany')
 });
 
 const graphqlSchema = GQC.buildSchema();
