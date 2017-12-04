@@ -1,16 +1,18 @@
-const mongoose = require('mongoose');
-const express = require('express');
-const bodyParser = require('body-parser');
-const { graphqlExpress, graphiqlExpress } = require ('apollo-server-express');
-const graphqlHTTP = require('express-graphql');
+const mongoose = require('mongoose')
+const express = require('express')
+const bodyParser = require('body-parser')
+const { graphqlExpress, graphiqlExpress } = require ('apollo-server-express')
+const graphqlHTTP = require('express-graphql')
+const authRoutes = require('./routes/auth-routes')
+const passportSetup = require('./config/passport-setup')
 
 //app server setup
 var app = express();
-
-const Chalk = require('chalk');
 const cors = require('cors');
-
 const schemas = require('./schemas/index');
+
+//set up login routes 
+app.use('/auth',authRoutes)
 
 // Front end client
 app.use('/graphql', cors(), graphqlHTTP({schema: schemas}));

@@ -35,7 +35,8 @@ export const store = new Vuex.Store({
 			timeout: 6000,
 			text: 'There was an error adding the record'
 		},
-		users:[]
+		users:[],
+		roles:[]
 	},
 	mutations:{
 		changeProject (state, newProject) {
@@ -54,6 +55,9 @@ export const store = new Vuex.Store({
 		},
 		userList (state, data) {
 			state.users = data
+		},
+		rolesList (state, data) {
+			state.roles= data
 		},
 		
 	}

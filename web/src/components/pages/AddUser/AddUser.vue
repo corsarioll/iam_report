@@ -23,6 +23,7 @@
 														label="First Name"
 														v-model="addUser.value.firstName"
 														:rules="addUser.validations.firstNameRules"
+														type="email"
 														required
 							></v-text-field>
 						</v-flex>
@@ -47,8 +48,10 @@
 							<v-select
 														label="Role"
 														v-model="addUser.value.role"
-														:items="addUser.options"
+														:items="roles"
 														:rules="[v => !!v || 'Role is required']"
+														item-text="roleName"
+														item-value="roleName"
 														required
 							></v-select>
 						</v-flex>
@@ -66,18 +69,39 @@
 	</div>
 </template>
 <script>
-
+	import ROLES_GET from '../../../graphql/rolesGet';
+	import USER_ADD from '../../../graphql/userAdd';
 	export default {
-			data () {
+				
+		computed:{
+			roles (){
+				return this.$store.state.roles
+			},
+			alertSuccess (){
+				return this.$store.state.alertSuccess
+			},
+			alertError (){
+				return this.$store.state.alertError
+			}
+		},
+			
+		data () {
 				return {
 					addUser:{
 						value:{
 							email:"",
+							firstName:"",
+							LastName:"",
+							password:"",
+							role:""
 						},
 						validations:{
-							valid: true,
+							valid: false,
 							emailRules: [
-								(v) => !!v || 'Email is required',
+								v => {
+									return !!v || 'E-mail is required'
+								},
+								v => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
 							],
 							firstNameRules: [
 								(v) => !!v || 'First name is required',
@@ -94,11 +118,38 @@
 		},
 		methods: {
       submit () {
+				var report ={
+					email:this.addUser.email,
+					firstName:this.addUser.firstName,
+					lastName:this.addUser.LastName,
+					password:this.addUser.password,
+					role:this.addUser.role,
+				} 
+				
+				this.$apollo.mutate({
+					mutation: USER_ADD(report),
+					variables: report
+				}).then((data) => {
+					this.$store.commit('alertSuccess',false)
+					this.clear()
+				}).catch((error) => {
+					console.log(error)
+					this.$store.commit('alertError',false)
+				})
       },
       clear () {
         this.$refs.form.reset()
       },
-    }
+    },
+		created(){
+			this.$apollo.query({
+				query:ROLES_GET()
+			}).then((data) => {
+				this.$store.commit('rolesList',data.data.roleMany)
+			}).catch((error) => {
+				console.log(error)
+			})
+		}
 	}
 
 </script>

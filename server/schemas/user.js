@@ -4,11 +4,14 @@ const ProjectSchema = require('./project');
 const UserSchema = new mongoose.Schema({
 	firstName: String,
 	LastName: String,
+	userName:String,
 	email: String,
 	password: {
 		type: String,
 		require: true
 	},
+	googleId:String,
+	image:String,
 	role: {
         type: String,
         default: 'ADMIN'

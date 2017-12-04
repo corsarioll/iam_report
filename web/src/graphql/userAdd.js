@@ -3,20 +3,17 @@ import gql from 'graphql-tag';
 const module = function(data){
 	
 	const test = gql`mutation{
-		createUser(user:{
-			email:"${data.firstName}",
-			firstName:"${data.firstName}",
-			lastName:"${data.lastName}",
-			password:"${data.password}",
+		userCreate(record:{
+			firstName:"${data.firsName}",
+			LastName:"${data.LastName}",
+			email:"${data.email}",
+			role:"${data.role}",
 			active:false,
-			role:{
-				name:"${data.role.name}"
-			}
+
 		}){
-			firstName
-			lastName
-			email
-			password
+			record{
+				firstName
+			}
 		}
 	}`;
 	return test;	
