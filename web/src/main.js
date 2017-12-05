@@ -12,6 +12,17 @@ import { ApolloClient, createBatchingNetworkInterface, createNetworkInterface } 
 //import '/node_modules/vuetify/dist/vuetify.min.css'
 import {store} from './store/store';	
 
+var invocation = new XMLHttpRequest();
+var url = 'http://localhost:4000/';
+   
+function callOtherDomain() {
+  if(invocation) {    
+    invocation.open('GET', url, true);
+    invocation.onreadystatechange = handler;
+    invocation.send(); 
+  }
+}
+
 // Create the apollo client
 const apolloClient = new ApolloClient({
   networkInterface: createNetworkInterface({

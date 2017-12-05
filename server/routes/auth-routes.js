@@ -1,13 +1,14 @@
 const router = require('express').Router()
 const passport = require('passport')
 const bodyParser = require('body-parser')
+const email = require('../email/newUserEmail')
+const keys = require('../config/keys')
 // auth Login 
 
 router.get('/login',(req,res)=>{
 	console.log("inside of login ")
 	res.send('login')
 })
-
 
 // auth logout 
 
@@ -20,21 +21,22 @@ router.get('/logout',(req,res)=>{
 router.get('/google',
   passport.authenticate('google', { scope: ['profile'] }));
 
-// callback route for google to redirect to
-// hand control to passport to use code to grab profile info
-router.get('/auth/google/callback', bodyParser.json(), (req, res) => {
-	console.log("test")
-	res.send('you reached the redirect URI');	
+//invitation email 
+router.post('/invitation',function(req, res, next){
+	
+	var emailData = {
+		from: 'jeissonlazo@gmail.com',
+		to: 'jeissonlazo@hotmail.com',
+		projectKey:keys.encodingKey
+	}
+	email(emailData)
+	res.send(req.body)
 });
 
-/*
-router.get('/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    //res.redirect('/');
-		res.send('you reached the redirect URI');	
-  });
-*/
+// callback route for google to redirect to
+// hand control to passport to use code to grab profile info
+router.get('/google/callback', bodyParser.json(), (req, res) => {
+	res.send('you reached the redirect URI');	
+});
 
 module.exports = router

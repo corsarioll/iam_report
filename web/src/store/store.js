@@ -36,7 +36,8 @@ export const store = new Vuex.Store({
 			text: 'There was an error adding the record'
 		},
 		users:[],
-		roles:[]
+		roles:[],
+		servicesUrl:'http://localhost:4000/'
 	},
 	mutations:{
 		changeProject (state, newProject) {

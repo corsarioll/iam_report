@@ -82,6 +82,9 @@
 			},
 			alertError (){
 				return this.$store.state.alertError
+			},
+			servicesUrl (){
+				return this.$store.state.servicesUrl
 			}
 		},
 			
@@ -126,7 +129,13 @@
 					role:this.addUser.role,
 				} 
 				
-				this.$apollo.mutate({
+				this.$http.post(this.servicesUrl + 'auth/invitation', {
+					email:this.addUser.email
+				}).then(function(data){
+					console.log(data)
+				})
+				
+/*				this.$apollo.mutate({
 					mutation: USER_ADD(report),
 					variables: report
 				}).then((data) => {
@@ -135,7 +144,7 @@
 				}).catch((error) => {
 					console.log(error)
 					this.$store.commit('alertError',false)
-				})
+				})*/
       },
       clear () {
         this.$refs.form.reset()
