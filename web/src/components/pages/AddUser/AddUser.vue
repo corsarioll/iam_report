@@ -121,34 +121,35 @@
 		},
 		methods: {
       submit () {
-				var report ={
-					email:this.addUser.email,
-					firstName:this.addUser.firstName,
-					lastName:this.addUser.LastName,
-					password:this.addUser.password,
-					role:this.addUser.role,
+				var user ={
+					email:this.addUser.value.email,
+					firstName:this.addUser.value.firstName,
+					LastName:this.addUser.value.LastName,
+					password:this.addUser.value.password,
+					role:this.addUser.value.role,
 				} 
 				
-				this.$http.post(this.servicesUrl + 'auth/invitation', {
-					email:this.addUser.email
-				}).then(function(data){
-					console.log(data)
-				})
-				
-/*				this.$apollo.mutate({
-					mutation: USER_ADD(report),
-					variables: report
+				this.$apollo.mutate({
+					mutation: USER_ADD(user),
+					variables: user
 				}).then((data) => {
 					this.$store.commit('alertSuccess',false)
+					this.sendInvitation()
 					this.clear()
 				}).catch((error) => {
 					console.log(error)
 					this.$store.commit('alertError',false)
-				})*/
+				})
       },
       clear () {
         this.$refs.form.reset()
       },
+			sendInvitation (){
+				this.$http.post(this.servicesUrl + 'auth/invitation', {
+					email:this.addUser.value.email
+				}).then(function(data){
+				})
+			}
     },
 		created(){
 			this.$apollo.query({
@@ -158,7 +159,7 @@
 			}).catch((error) => {
 				console.log(error)
 			})
-		}
+		},
 	}
 
 </script>

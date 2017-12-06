@@ -9,8 +9,6 @@ var transporter = nodemailer.createTransport({
 });
 
 var invitation = function(data){
-	console.log("email send")
-	
 	var mailOptions = {
 		subject: 'Invitation report plataform',
 		text: 'That was easy 2!',		
@@ -30,5 +28,5 @@ var invitation = function(data){
 	
 }
 
-module.exports = invitation
+module.exports = invitation	
 

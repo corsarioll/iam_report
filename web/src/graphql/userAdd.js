@@ -4,7 +4,7 @@ const module = function(data){
 	
 	const test = gql`mutation{
 		userCreate(record:{
-			firstName:"${data.firsName}",
+			firstName:"${data.firstName}",
 			LastName:"${data.LastName}",
 			email:"${data.email}",
 			role:"${data.role}",

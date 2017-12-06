@@ -7,34 +7,33 @@ const mongoose = require('mongoose')
 const User = mongoose.model('user', userSchema)
 
 passport.use(
-    
-	new GoogleStrategy({
-		// options for google strategy
-		callbackURL:'http://localhost:4000/auth/google/callback',
-		clientID:keys.google.clientID,
-		clientSecret:keys.google.clientSecret,
-		passReqToCallback   : true
-	},(accessToken, refreshToken, profile, done) => {
+    new GoogleStrategy({
+        // options for google strategy
+        clientID: keys.google.clientID,
+        clientSecret: keys.google.clientSecret,
+        callbackURL: '/auth/google/callback'
+    }, (accessToken, refreshToken, profile,email, done) => {
+        // check if user already exists in our own db
+				//console.log(email)
+				console.log(email.displayName)
 				
-			// passport callback function
-			//verificate there is no existing user
-			User.findOne({googleId:profile.id}).then((currentUser)=>{
-				if(currentUser){
-					//alredy have the user
-				}else{
-					//if no, crete a new user
-					new User({
-						firstName:profile.name.givenName,
-						LastName:profile.name.familyName,
-						userName:profile.displayName,
-						googleId:profile.id,
-						image:profile.image.url,
-						active:true
-					}).save().then((newUser)=>{
-						console.log('new user created'+ newUser)
-					})
+				var test = {
+					firstName:email.name.givenName,
+					LastName:email.name.familyName,
+					userName:email.displayName,
+					email:email.emails[0].value,
+					googleId:email.id,
+					image:email.photos[0].value,
+					active:true,
 				}
- 			})
+				
+				User.findOneAndUpdate({email:email.emails[0].value},test,function (err, user) {
+					if(err){
+						console.log(err)
+					}else{
+						console.log(user)
+					}
+				});
 			
     })
 );
