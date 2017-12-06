@@ -11,13 +11,10 @@ passport.use(
         // options for google strategy
         clientID: keys.google.clientID,
         clientSecret: keys.google.clientSecret,
-        callbackURL: '/auth/google/callback'
+        callbackURL: 'http://localhost:8080/home'
     }, (accessToken, refreshToken, profile,email, done) => {
-        // check if user already exists in our own db
-				//console.log(email)
-				console.log(email.displayName)
 				
-				var test = {
+				var userData = {
 					firstName:email.name.givenName,
 					LastName:email.name.familyName,
 					userName:email.displayName,
@@ -26,14 +23,23 @@ passport.use(
 					image:email.photos[0].value,
 					active:true,
 				}
-				
-				User.findOneAndUpdate({email:email.emails[0].value},test,function (err, user) {
-					if(err){
-						console.log(err)
+				console.log('inside')
+				User.findOne({email:email.emails[0].value},function(err, user){
+					// check if user already exists in our own db
+					if(user.googleId){
+						
 					}else{
-						console.log(user)
+						User.findOneAndUpdate({email:email.emails[0].value},userData,function (err, user) {
+							console.log("standar")
+							if(err){
+								console.log(err)
+							}else{
+								console.log(user)
+							}
+						});
 					}
-				});
+				})
+				
 			
     })
 );
