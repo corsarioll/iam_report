@@ -6,8 +6,10 @@ const graphqlHTTP = require('express-graphql')
 const authRoutes = require('./routes/auth-routes')
 const passportSetup = require('./config/passport-setup')
 const cors = require('cors')
+const keys = require('./config/keys')
 const proxy = require('http-proxy-middleware')
-
+const cookieSession = require('cookie-session')
+const passport = require('passport')
 //app server setup
 var app = express()
 
@@ -15,6 +17,15 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 const schemas = require('./schemas/index')
+//cookie session
+app.use(cookieSession({
+	maxAge:24*60*60*1000,
+	keys:[keys.session.cookieKey]
+}))
+//initialized passport
+app.use(passport.initialize())
+app.use(passport.session())
+
 //cros
 app.use(cors())
 //set up login routes 

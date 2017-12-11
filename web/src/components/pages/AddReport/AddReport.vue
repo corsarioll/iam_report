@@ -189,8 +189,8 @@
 			project (){
 				return this.$store.state.project
 			},
-			selecUser (){
-				return this.$store.state.selecUser
+			selectUser (){
+				return this.$store.state.selectUser
 			},
 			alertSuccess (){
 				return this.$store.state.alertSuccess
@@ -282,7 +282,7 @@
 					importantInfo:this.addTask.value.importantInfo,
 					tasks:this.tasks,
 					project:this.project,
-					reporter:this.selecUser
+					reporter:this.selectUser
 				} 
 				this.$apollo.mutate({
 					mutation: REPORT_CREATE(report),
@@ -296,7 +296,6 @@
 					this.$store.commit('alertSuccess',item)
 					
 				}).catch((error) => {
-					console.log(error)
 					var item = {
 						snackbar:true,
 					}

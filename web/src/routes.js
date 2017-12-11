@@ -19,7 +19,7 @@ import AddUser from './components/pages/AddUser/AddUser.vue';
 	<i class="material-icons">person_add</i>
 	{url:'/proyects',icon:'developer_board',title:'Projects'},*/
 export default [
-	{path:'/',component:Home,icon:"home",title:'Home'},
+	{path:'/:id',component:Home,icon:"home",title:'Home'},
 	{path:'/login',component:Login,icon:"perm_identity",title:'Login'},
 	{path:'/charts',component:Charts,icon:"show_chart",title:'Charts'},
 	{path:'/maps',component:Maps,icon:"map",title:'Maps'},

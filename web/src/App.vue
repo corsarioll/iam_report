@@ -16,7 +16,7 @@
         <v-list class="pa-0">
           <v-list-tile avatar tag="div">
             <v-list-tile-avatar>
-              <img src="https://randomuser.me/api/portraits/men/85.jpg" />
+              <img :src="selectUser.image" />
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>John Leider</v-list-tile-title>
@@ -61,9 +61,10 @@
 </template>
 
 <script>
-	import routes from './routes';
-	import login from './components/Utilities/LoginModal/LoginModal.vue';
-	import PROJECT_GET from './graphql/projectsGet';
+	import routes from './routes'
+	import login from './components/Utilities/LoginModal/LoginModal.vue'
+	import PROJECT_GET from './graphql/projectsGet'
+	import USER_GET from './graphql/userGet'
 	
 	export default {
 		computed:{
@@ -75,6 +76,12 @@
 			},
 			alertError (){
 				return this.$store.state.alertError
+			},
+			selectUser (){
+				return this.$store.state.selectUser
+			},
+			loginModal (){
+				return this.$store.state.loginModal
 			}
 		},
 		components:{
@@ -101,6 +108,17 @@
 					this.proyectList = data.data.projectMany
 					this.selectProject = this.proyectList[0];
 					this.$store.commit('changeProject',this.selectProject)
+			}).catch((error) => {
+				
+			})
+			var userQuery = this.$route.query
+			
+			this.$apollo.query({
+					query:USER_GET(userQuery)
+			}).then((data) => {
+				this.$store.commit('selectUser',data.data.userOne)
+				this.$store.commit('loginModal',false)
+				console.log(this.loginModal)
 			}).catch((error) => {
 				
 			})

@@ -4,5 +4,8 @@ module.exports = {
 		clientID:'945109226150-bjt3k846d9sc6p0l74stb5m408mg382s.apps.googleusercontent.com',
 		clientSecret:'6KVRFW3uAcoXqMNr3UgL_n_Z'
 	},
-	encodingKey:"aWFtU3R1ZGlvcw=="
+	encodingKey:"aWFtU3R1ZGlvcw==",
+	session:{
+		cookieKey:'iamStudiioreportsofware'
+	}
 }

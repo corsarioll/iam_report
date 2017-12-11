@@ -2,6 +2,7 @@ const router = require('express').Router()
 const passport = require('passport')
 const email = require('../email/newUserEmail')
 const keys = require('../config/keys')
+
 // auth Login 
 
 router.get('/login',(req,res)=>{
@@ -16,8 +17,9 @@ router.get('/logout',(req,res)=>{
 })
 
 // auth with google
-router.get('/google',
-  passport.authenticate('google', { scope: ['profile','https://www.googleapis.com/auth/userinfo.email'] }));
+router.get('/google', passport.authenticate('google', { 
+	scope: ['profile','https://www.googleapis.com/auth/userinfo.email'] 
+}));
 
 //invitation email 
 router.post('/invitation',function(req, res, next){
@@ -34,7 +36,12 @@ router.post('/invitation',function(req, res, next){
 // callback route for google to redirect to
 // hand control to passport to use code to grab profile info
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-    res.send('you reached the redirect URI');
+	//res.send('you reached the redirect URI'+req.user);
+	if(!req.user){
+		res.redirect('http://localhost:8080')
+	}else{
+		res.redirect('http://localhost:8080?id='+req.user._id)
+	}
 });
 
 module.exports = router

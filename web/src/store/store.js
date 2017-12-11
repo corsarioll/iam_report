@@ -12,7 +12,7 @@ export const store = new Vuex.Store({
 			"tasks" : [],
 			"users" : []
 		},
-		selecUser:{
+		selectUser:{
 			_id : "",
 			firstName : "",
 			LastName : "",
@@ -20,6 +20,9 @@ export const store = new Vuex.Store({
 			password : "",
 			projects : [],
 			role : "",
+			active:false,
+			googleId:"",
+			image:""
 		},
 		alertSuccess:{
 			snackbar: false,
@@ -37,14 +40,15 @@ export const store = new Vuex.Store({
 		},
 		users:[],
 		roles:[],
-		servicesUrl:'http://localhost:4000/'
+		servicesUrl:'http://localhost:4000/',
+		loginModal:true
 	},
 	mutations:{
 		changeProject (state, newProject) {
     	state.project = newProject
 		},
 		selectUser (state, newUser) {
-    	state.selecUser = newUser
+    	state.selectUser = newUser
 		},
 		alertSuccess (state, alert) {
     	//state.snackbar = alert
@@ -59,6 +63,9 @@ export const store = new Vuex.Store({
 		},
 		rolesList (state, data) {
 			state.roles= data
+		},
+		loginModal (state, data) {
+			state.loginModal = data
 		},
 		
 	}
