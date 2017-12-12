@@ -11,7 +11,8 @@ const module = function(data){
 			role,
 			active,
 			googleId,
-			image
+			image,
+			userName
 		}
 	}`;
 	return users;	

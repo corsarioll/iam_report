@@ -13,7 +13,8 @@ router.get('/login',(req,res)=>{
 
 router.get('/logout',(req,res)=>{
 	//Handle with passport 
-	res.send('logging out')
+	req.logout()
+	res.redirect(keys.frontEndUrl)
 })
 
 // auth with google
@@ -37,10 +38,11 @@ router.post('/invitation',function(req, res, next){
 // hand control to passport to use code to grab profile info
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 	//res.send('you reached the redirect URI'+req.user);
+	console.log(req.user)
 	if(!req.user){
-		res.redirect('http://localhost:8080')
+		res.redirect(keys.frontEndUrl)
 	}else{
-		res.redirect('http://localhost:8080?id='+req.user._id)
+		res.redirect(keys.frontEndUrl + '?id=' + req.user._id)
 	}
 });
 

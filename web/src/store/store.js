@@ -22,7 +22,8 @@ export const store = new Vuex.Store({
 			role : "",
 			active:false,
 			googleId:"",
-			image:""
+			image:"",
+			userName:""
 		},
 		alertSuccess:{
 			snackbar: false,
@@ -66,7 +67,6 @@ export const store = new Vuex.Store({
 		},
 		loginModal (state, data) {
 			state.loginModal = data
-		},
-		
+		}	
 	}
 })

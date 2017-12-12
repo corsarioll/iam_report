@@ -6,6 +6,7 @@ module.exports = {
 	},
 	encodingKey:"aWFtU3R1ZGlvcw==",
 	session:{
-		cookieKey:'iamStudiioreportsofware'
-	}
+		cookieKey:'iamStudioreportsofware'
+	},
+	frontEndUrl:'http://localhost:8080'
 }

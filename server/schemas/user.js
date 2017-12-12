@@ -13,9 +13,13 @@ const UserSchema = new mongoose.Schema({
 	googleId:String,
 	image:String,
 	role: {
-        type: String,
-        default: 'ADMIN'
-    },
+		type: String,
+		default: 'DEVELOPER'
+	},
+	roleId:{
+		type:Number,
+		default:4
+	},
 	projects:{
 		type: [String],
 		default: []

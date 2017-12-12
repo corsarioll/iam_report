@@ -19,7 +19,7 @@
               <img :src="selectUser.image" />
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>John Leider</v-list-tile-title>
+              <v-list-tile-title>{{selectUser.userName}}</v-list-tile-title>
             </v-list-tile-content>
 						
             <v-list-tile-action>
@@ -48,6 +48,29 @@
     <v-toolbar class="indigo darken-4" fixed dark app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>{{project.name}}</v-toolbar-title>
+			
+			<div class="d-flex align-center" style="margin-left: auto">
+				
+        <v-btn icon>
+          <v-icon>notifications</v-icon>
+        </v-btn>
+				
+				<v-menu
+					transition="slide-y-transition"
+					bottom
+				>
+					<v-btn icon  dark slot="activator">
+						<v-icon>apps</v-icon>
+					</v-btn>
+					<v-list>
+						<v-list-tile v-for="item in items" :key="item.title" @click="">
+							<v-list-tile-title v-on:click="redirect(item.url)">{{ item.title }}</v-list-tile-title>
+						</v-list-tile>
+					</v-list>
+				</v-menu>
+				
+      </div>
+			
     </v-toolbar>
 		<v-content>	
 			<v-container fluid>
@@ -82,6 +105,9 @@
 			},
 			loginModal (){
 				return this.$store.state.loginModal
+			},
+			servicesUrls (){
+				return this.$store.state.servicesUrls
 			}
 		},
 		components:{
@@ -92,10 +118,18 @@
 				drawer: true,
 				menuItems: [],
 				mini: false,
-				right: null
+				right: null,
+				items: [
+					{ title: 'Sign out', url:this.servicesUrls+"logout"},
+					{ title: 'Edit profile' },
+				],
+				show: true
 			}
 		},
 		methods:{
+			redirect (url){
+				window.location.replace(url)
+			}
 		},
 		mixins:[
 			routes
@@ -118,7 +152,6 @@
 			}).then((data) => {
 				this.$store.commit('selectUser',data.data.userOne)
 				this.$store.commit('loginModal',false)
-				console.log(this.loginModal)
 			}).catch((error) => {
 				
 			})
