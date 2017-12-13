@@ -3,7 +3,7 @@
     <v-dialog v-model="loginModal" fullscreen transition="dialog-bottom-transition" :overlay=false>
       <v-card>
         <v-toolbar dark color="primary">
-          <v-toolbar-title>Login{{loginModal}}</v-toolbar-title>
+          <v-toolbar-title>Login</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
 

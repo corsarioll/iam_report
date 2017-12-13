@@ -1,34 +1,61 @@
 <template>
 	<div>
 		<h4>Your reports</h4>
+		<v-flex xs6>
+			<v-select
+								label="Users"
+								v-bind:items="projects"
+								v-model="selecProject"
+								multiple
+								chips
+								item-text="name"
+								item-value="_id"
+			></v-select>
+		</v-flex>
 		
 		<template>
-  <v-data-table
-      v-bind:headers="headers"
-      :items="items"
-      hide-actions
-      class="elevation-1"
-    >
-    <template slot="items" slot-scope="props">
-      <td>{{ props.item.name }}</td>
-      <td class="text-xs-right">{{ props.item.calories }}</td>
-      <td class="text-xs-right">{{ props.item.fat }}</td>
-      <td class="text-xs-right">{{ props.item.carbs }}</td>
-      <td class="text-xs-right">{{ props.item.protein }}</td>
-      <td class="text-xs-right">{{ props.item.sodium }}</td>
-      <td class="text-xs-right">{{ props.item.calcium }}</td>
-      <td class="text-xs-right">{{ props.item.iron }}</td>
-    </template>
-  </v-data-table>
-</template>
+			<v-data-table
+					v-bind:headers="headers"
+					:items="items"
+					hide-actions
+					class="elevation-1"
+				>
+				<template slot="items" slot-scope="props">
+					<td>{{ props.item.name }}</td>
+					<td class="text-xs-right">{{ props.item.calories }}</td>
+					<td class="text-xs-right">{{ props.item.fat }}</td>
+					<td class="text-xs-right">{{ props.item.carbs }}</td>
+					<td class="text-xs-right">{{ props.item.protein }}</td>
+					<td class="text-xs-right">{{ props.item.sodium }}</td>
+					<td class="text-xs-right">{{ props.item.calcium }}</td>
+					<td class="text-xs-right">{{ props.item.iron }}</td>
+				</template>
+			</v-data-table>
+		</template>
 		
 	</div>
 </template>
 <script>
+	import REPORTS_GET from '../../../graphql/reportsGet';
 	export default {
+		computed:{
+			project (){
+				return this.$store.state.project
+			},
+			selectUser (){
+				return this.$store.state.selectUser
+			},
+			servicesUrls (){
+				return this.$store.state.servicesUrls
+			},
+			projects (){
+				return this.$store.state.projects
+			}
+		},
 		data () {
 			return {
 				title:"Home",
+				selecProject:[],
         headers: [
           {
             text: 'Dessert (100g serving)',
@@ -161,6 +188,9 @@
 		created() {
     },
 		methods: {
+			filter (){
+				console.log(this.selecProject)
+			}
 		}
 	}
 </script>

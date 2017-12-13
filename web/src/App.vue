@@ -88,6 +88,7 @@
 	import login from './components/Utilities/LoginModal/LoginModal.vue'
 	import PROJECT_GET from './graphql/projectsGet'
 	import USER_GET from './graphql/userGet'
+	import REPORTS_GET from './graphql/reportsGet';
 	
 	export default {
 		computed:{
@@ -142,6 +143,7 @@
 					this.proyectList = data.data.projectMany
 					this.selectProject = this.proyectList[0];
 					this.$store.commit('changeProject',this.selectProject)
+					this.$store.commit('projects',data.data.projectMany)
 			}).catch((error) => {
 				
 			})
@@ -152,9 +154,26 @@
 			}).then((data) => {
 				this.$store.commit('selectUser',data.data.userOne)
 				this.$store.commit('loginModal',false)
+					
+				var userReports = {
+					reporter : this.selectUser._id,
+					project : this.project._id
+				}
+				
+				this.$apollo.query({
+					query:REPORTS_GET(userReports)
+				}).then((data) => {
+					console.log(data)
+				//	this.$store.commit('selectUser',data.data.userOne)
+				}).catch((error) => {
+					console.log(error)
+				})
+				
 			}).catch((error) => {
 				
 			})
+			
+
 		}
 	}
 </script>

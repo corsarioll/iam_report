@@ -294,6 +294,7 @@
 					}
 					this.dialog = false
 					this.$store.commit('alertSuccess',item)
+					this.tasks = []
 					
 				}).catch((error) => {
 					var item = {

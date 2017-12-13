@@ -39,8 +39,19 @@ export const store = new Vuex.Store({
 			timeout: 6000,
 			text: 'There was an error adding the record'
 		},
+		userReports:{			
+			importantInfo:"",
+			tasks :{
+				reference:"",
+				description:"",
+				project:"",
+				assignedTo:"",
+				status:""
+			}
+		},
 		users:[],
 		roles:[],
+		projects:[],
 		servicesUrl:'http://localhost:4000/',
 		loginModal:true
 	},
@@ -67,6 +78,9 @@ export const store = new Vuex.Store({
 		},
 		loginModal (state, data) {
 			state.loginModal = data
+		},
+		projects (state, data) {
+			state.projects = data
 		}	
 	}
 })
