@@ -9,6 +9,7 @@ const module = function(data){
 			email
 			password
 			role
+			roleId
 		}
 	}`;
 	return users;	

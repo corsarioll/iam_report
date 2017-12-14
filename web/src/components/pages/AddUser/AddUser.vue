@@ -35,23 +35,15 @@
 														required
 							></v-text-field>
 						</v-flex>
-						
-						<v-flex xs4>
-							<v-text-field
-														label="Provisional Password"
-														v-model="addUser.value.password"
-														:rules="addUser.validations.passwordRules"
-														required
-							></v-text-field>
-						</v-flex>
+
 						<v-flex xs4>
 							<v-select
 														label="Role"
-														v-model="addUser.value.role"
+														v-model="addUser.value.roleId"
 														:items="roles"
 														:rules="[v => !!v || 'Role is required']"
 														item-text="roleName"
-														item-value="roleName"
+														item-value="roleId"
 														required
 							></v-select>
 						</v-flex>
@@ -95,8 +87,8 @@
 							email:"",
 							firstName:"",
 							LastName:"",
-							password:"",
-							role:""
+							role:"",
+							roleId:0,
 						},
 						validations:{
 							valid: false,
@@ -111,10 +103,7 @@
 							],
 							LastNameRules: [
 								(v) => !!v || 'Last name is required',
-							],
-							passwordRules: [
-								(v) => !!v || 'Password is required',
-							],
+							]
 						}
 					}
 				}
@@ -125,9 +114,15 @@
 					email:this.addUser.value.email,
 					firstName:this.addUser.value.firstName,
 					LastName:this.addUser.value.LastName,
-					password:this.addUser.value.password,
 					role:this.addUser.value.role,
+					roleId:this.addUser.value.roleId,
 				} 
+
+				for (var i = 0; i < this.roles.length; i ++){
+					if(this.roles[i].roleId == this.addUser.value.roleId){
+						user.role = this.roles[i].roleName
+					}
+				}
 				
 				this.$apollo.mutate({
 					mutation: USER_ADD(user),

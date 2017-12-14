@@ -9,6 +9,7 @@ const module = function(data){
 			LastName,
 			_id,
 			role,
+			roleId,
 			active,
 			googleId,
 			image,

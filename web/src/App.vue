@@ -35,7 +35,7 @@
       <v-list class="pt-0" dense>
         <v-divider></v-divider>
 				
-        <v-list-tile v-for="item in menuItems" :key="item.title">
+        <v-list-tile v-for="item in menuItems" :key="item.title" v-if="selectUser.roleId <= item.roleReq">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -136,6 +136,7 @@
 			routes
 		],
 		created(){
+			console.log(routes)
 			this.menuItems = routes
 			this.$apollo.query({
 					query:PROJECT_GET()
