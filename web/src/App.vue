@@ -35,7 +35,7 @@
       <v-list class="pt-0" dense>
         <v-divider></v-divider>
 				
-        <v-list-tile v-for="item in menuItems" :key="item.title" v-if="selectUser.roleId <= item.roleReq">
+				<v-list-tile v-for="item in menuItems" :key="item.title" v-if="selectUser.roleId <= item.roleReq">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -129,6 +129,7 @@
 		},
 		methods:{
 			redirect (url){
+				this.$session.remove('user')
 				window.location.replace(url)
 			}
 		},
@@ -136,7 +137,37 @@
 			routes
 		],
 		created(){
-			console.log(routes)
+			console.log(this.$route.query)
+			
+			//verificate the user profile in session storage
+			if(this.$session.get('user')){
+				this.$store.commit('selectUser',this.$session.get('user'))
+			}else if(this.$route.query){
+			//verficate the user	
+				var userQuery = this.$route.query
+			
+				this.$apollo.query({
+					query:USER_GET(userQuery)
+				}).then((data) => {
+					this.$session.set('user', data.data.userOne)
+					this.$store.commit('selectUser',this.$session.get('user'))
+					this.$store.commit('loginModal',false)
+					var userReports = {
+						reporter : this.selectUser._id,
+						project : this.project._id
+					}
+				
+					this.$apollo.query({
+						query:REPORTS_GET(userReports)
+					}).then((data) => {
+					}).catch((error) => {
+					})
+				
+				}).catch((error) => {
+				
+				})
+			}
+			
 			this.menuItems = routes
 			this.$apollo.query({
 					query:PROJECT_GET()
@@ -145,31 +176,6 @@
 					this.selectProject = this.proyectList[0];
 					this.$store.commit('changeProject',this.selectProject)
 					this.$store.commit('projects',data.data.projectMany)
-			}).catch((error) => {
-				
-			})
-			var userQuery = this.$route.query
-			
-			this.$apollo.query({
-					query:USER_GET(userQuery)
-			}).then((data) => {
-				this.$store.commit('selectUser',data.data.userOne)
-				this.$store.commit('loginModal',false)
-					
-				var userReports = {
-					reporter : this.selectUser._id,
-					project : this.project._id
-				}
-				
-				this.$apollo.query({
-					query:REPORTS_GET(userReports)
-				}).then((data) => {
-					console.log(data)
-				//	this.$store.commit('selectUser',data.data.userOne)
-				}).catch((error) => {
-					console.log(error)
-				})
-				
 			}).catch((error) => {
 				
 			})

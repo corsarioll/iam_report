@@ -34,21 +34,37 @@
 			servicesUrl (){
 				return this.$store.state.servicesUrl
 			},
+			selectUser (){
+				return this.$store.state.selectUser
+			},
 			loginModal (){
 				return this.$store.state.loginModal
-			}
+			},
 		},
     data () {
       return {
         notifications: false,
         sound: true,
-        widgets: false
+        widgets: false,
+				modal: true
       }
     },
 		methods: {
 			signGo (){
 				window.location.replace(this.servicesUrl+'auth/google');
+			},
+			userValidation (){
+				if(this.$session.get('user')){
+					this.modal =  false 
+					this.$store.commit('loginModal',false)
+				}else{
+					this.modal =  true
+					this.$store.commit('loginModal',true)
+				}
 			}
+		},
+		created (){
+			this.userValidation()
 		}
   }
 </script>

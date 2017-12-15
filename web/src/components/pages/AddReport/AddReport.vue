@@ -305,17 +305,7 @@
 					
 				})
 			}
-    },
-		created() {
-				this.$apollo.query({
-					query:USERS_GET()
-				}).then((data) => {
-					this.userList = data.data.userMany
-					this.$store.commit('selectUser',this.userList[0])
-				}).catch((error) => {
-					console.log(error)
-				})
-			}
+    }
   }
 </script>
 

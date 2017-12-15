@@ -11,6 +11,11 @@ import VueApollo from 'vue-apollo';
 import { ApolloClient, createBatchingNetworkInterface, createNetworkInterface } from 'apollo-client'
 //import '/node_modules/vuetify/dist/vuetify.min.css'
 import {store} from './store/store';	
+import VueAuthenticate from 'vue-authenticate'
+//import VueAuthorize from 'vue-authorize'
+import VueSessionStorage from 'vue-sessionstorage'
+
+Vue.use(VueSessionStorage)
 
 var invocation = new XMLHttpRequest();
 var url = 'http://localhost:4000/';
