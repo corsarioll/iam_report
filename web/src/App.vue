@@ -15,7 +15,7 @@
 					<v-list-tile-title>{{selectUser.userName}}</v-list-tile-title>
 				</v-list-tile>
         <template v-for="(item, i) in menuItems">
-          <v-list-tile  @click="$router.push(item.path)">
+          <v-list-tile v-if="selectUser.roleId <= item.roleReq" @click="$router.push(item.path)">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -140,7 +140,6 @@
 					query:PROJECT_GET(this.selectUser)
 				}).then((data) => {
 					this.proyectList = data.data.projectMany
-					console.log(data)
 					if(this.proyectList.length>0){
 						this.$store.commit('changeProject',this.proyectList[0])
 					}
