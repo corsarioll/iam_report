@@ -39,6 +39,9 @@
 		computed:{
 			project (){
 				return this.$store.state.project
+			},
+			selectUser (){
+				return this.$store.state.selectUser
 			}
 		},
 		data () {
@@ -52,17 +55,6 @@
 				this.selectProject = item;
 				this.$store.commit('changeProject',item)
 			}
-		},
-		created () {
-			this.$apollo.query({
-					query:PROJECT_GET()
-			}).then((data) => {
-					this.proyectList = data.data.projectMany
-					this.selectProject = this.proyectList[0];
-					this.$store.commit('changeProject',this.selectProject)
-			}).catch((error) => {
-				
-			})
 		}
 	}
 </script>

@@ -1,60 +1,46 @@
 <template>
-  <v-app id="example-2" toolbar>
+  <v-app id="inspire">
     <v-navigation-drawer
-												 absolute
-												 persistent 
-												 light 
-												 fixed
-												 stateless 
-												 :mini-variant.sync="mini" 
-												 v-model="drawer" 
-												 overflow 
-												 app
-												 class="side-nav"
-												 >
-      <v-toolbar flat class="transparent">
-        <v-list class="pa-0">
-          <v-list-tile avatar tag="div">
-            <v-list-tile-avatar>
-              <img :src="selectUser.image" />
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title>{{selectUser.userName}}</v-list-tile-title>
-            </v-list-tile-content>
-						
+      fixed
+      clipped
+      app
+      v-model="drawer"
+    >
+      <v-list dense>
+									
+				<v-list-tile avatar>
+					<v-list-tile-avatar>
+						<img :src="selectUser.image" alt="">
+					</v-list-tile-avatar>
+					<v-list-tile-title>{{selectUser.userName}}</v-list-tile-title>
+				</v-list-tile>
+        <template v-for="(item, i) in menuItems">
+          <v-list-tile v-if="selectUser.roleId <= item.roleReq" @click="$router.push(item.path)">
             <v-list-tile-action>
-              <v-btn icon @click.native.stop="mini = !mini">
-                <v-icon>chevron_left</v-icon>
-              </v-btn>
+              <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
-						
+            <v-list-tile-content>
+              <v-list-tile-title>
+                {{ item.title }}
+              </v-list-tile-title>
+            </v-list-tile-content>
           </v-list-tile>
-        </v-list>
-      </v-toolbar>
-			
-      <v-list class="pt-0" dense>
-        <v-divider></v-divider>
-				
-				<v-list-tile v-for="item in menuItems" :key="item.title" v-if="selectUser.roleId <= item.roleReq">
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title><router-link v-bind:to="item.path">{{ item.title }}</router-link></v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+        </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar class="indigo darken-4" fixed dark app>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>{{project.name}}</v-toolbar-title>
-			
-			<div class="d-flex align-center" style="margin-left: auto">
-				
-        <v-btn icon>
-          <v-icon>notifications</v-icon>
-        </v-btn>
-				
+    <v-toolbar
+      color="blue darken-3"
+      dark
+      app
+      clipped-left
+      fixed
+    >
+      <v-toolbar-title :style="$vuetify.breakpoint.smAndUp ? 'width: 300px; min-width: 250px' : 'min-width: 72px'" class="ml-0 pl-3">
+        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+        <span class="hidden-xs-only">{{project.name}}</span>
+      </v-toolbar-title>
+      <div class="d-flex align-center" style="margin-left: auto">
+        
 				<v-menu
 					transition="slide-y-transition"
 					bottom
@@ -69,10 +55,12 @@
 					</v-list>
 				</v-menu>
 				
+        <v-btn icon>
+          <v-icon>notifications</v-icon>
+        </v-btn>
       </div>
-			
     </v-toolbar>
-		<v-content>	
+    <v-content>	
 			<v-container fluid>
 				<router-view></router-view>
 			</v-container>
@@ -109,6 +97,9 @@
 			},
 			servicesUrls (){
 				return this.$store.state.servicesUrls
+			},
+			reports (){
+				return this.$store.state.reports
 			}
 		},
 		components:{
@@ -124,64 +115,74 @@
 					{ title: 'Sign out', url:this.servicesUrls+"logout"},
 					{ title: 'Edit profile' },
 				],
-				show: true
+				show: true,
+				dialog: false,
+				drawer: null,
 			}
 		},
 		methods:{
 			redirect (url){
 				this.$session.remove('user')
 				window.location.replace(url)
+			},
+			callReports (){
+				var userReports = {
+					reporter : this.selectUser._id,
+					project : this.project._id
+				}
+				this.$apollo.query({
+					query:REPORTS_GET(userReports)
+				}).then((data) => {
+					this.$store.commit('reports',data.data.reportMany)
+				}).catch((err) => {
+					console.log(err)
+				})
+			},
+			callProyects (){
+				this.$apollo.query({
+					query:PROJECT_GET(this.selectUser)
+				}).then((data) => {
+					this.proyectList = data.data.projectMany
+					if(this.proyectList.length>0){
+						this.$store.commit('changeProject',this.proyectList[0])
+					}
+					this.$store.commit('projects',data.data.projectMany)
+					this.callReports()
+				}).catch((error) => {
+					console.log(error)
+				})
 			}
 		},
 		mixins:[
 			routes
 		],
 		created(){
-			console.log(this.$route.query)
-			
-			//verificate the user profile in session storage
-			if(this.$session.get('user')){
-				this.$store.commit('selectUser',this.$session.get('user'))
-			}else if(this.$route.query){
-			//verficate the user	
-				var userQuery = this.$route.query
-			
-				this.$apollo.query({
-					query:USER_GET(userQuery)
-				}).then((data) => {
-					this.$session.set('user', data.data.userOne)
-					this.$store.commit('selectUser',this.$session.get('user'))
-					this.$store.commit('loginModal',false)
-					var userReports = {
-						reporter : this.selectUser._id,
-						project : this.project._id
-					}
-				
-					this.$apollo.query({
-						query:REPORTS_GET(userReports)
-					}).then((data) => {
-					}).catch((error) => {
-					})
-				
-				}).catch((error) => {
-				
-				})
-			}
-			
-			this.menuItems = routes
-			this.$apollo.query({
-					query:PROJECT_GET()
-			}).then((data) => {
-					this.proyectList = data.data.projectMany
-					this.selectProject = this.proyectList[0];
-					this.$store.commit('changeProject',this.selectProject)
-					this.$store.commit('projects',data.data.projectMany)
-			}).catch((error) => {
-				
-			})
-			
+				//verificate the user profile in session storage
+				if(this.$session.get('user')){
 
-		}
+					this.$store.commit('selectUser',this.$session.get('user'))
+					this.callProyects()
+				}
+				else if(this.$route.query){
+
+					//verficate the user	
+					var userQuery = this.$route.query
+
+					this.$apollo.query({
+						query:USER_GET(userQuery)
+					}).then((data) => {
+						this.$session.set('user', data.data.userOne)
+						this.$store.commit('selectUser',this.$session.get('user'))
+						this.$store.commit('loginModal',false)
+						this.callProyects()	
+					}).catch((error)=>{})
+				}
+
+				this.menuItems = routes
+		},
+		props: {
+      source: String
+    }
 	}
 </script>
 

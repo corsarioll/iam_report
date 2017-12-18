@@ -46,7 +46,6 @@
         notifications: false,
         sound: true,
         widgets: false,
-				modal: true
       }
     },
 		methods: {
@@ -55,10 +54,8 @@
 			},
 			userValidation (){
 				if(this.$session.get('user')){
-					this.modal =  false 
 					this.$store.commit('loginModal',false)
 				}else{
-					this.modal =  true
 					this.$store.commit('loginModal',true)
 				}
 			}

@@ -1,7 +1,7 @@
 //Dependencies 
 import Vue from 'vue';
 import App from './App.vue';
-import style from  './libs/vuetify.min.css';
+import style from  '../node_modules/vuetify/dist/vuetify.min.css';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
 import VueCharts from 'vue-chartjs';
