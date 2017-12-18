@@ -4,12 +4,12 @@
 
 		<v-layout row wrap>
 			<v-flex xs12>
-				<h4>Add your report</h4>
+				<h4 class="display-1">Add your report</h4>
 			</v-flex>
 		</v-layout>
 		
 		<v-form v-model="addTask.validations.valid" ref="form" lazy-validation>
-			<h5>Add task to report</h5>
+			<h5 class="headline">Add task to report</h5>
 			<v-layout row wrap>
 				<v-flex xs3>
 					<v-text-field
@@ -106,14 +106,14 @@
 			</template>
 		</v-data-table>
 
- <v-dialog v-model="dialog" max-width="700px">
+ <v-dialog scrollable v-model="dialog" max-width="700px">
 		<v-btn color="primary" dark slot="activator" v-bind:class="{disabled :tasks.length > 1}">Generate report</v-btn>
 		<v-card>
 			
 			<v-card-title>
 				<span class="headline">Add Report</span>
 			</v-card-title>
-
+			<v-divider></v-divider>
 			<v-card-text>
 				<v-container grid-list-md>
 					<v-layout wrap row> 
@@ -174,6 +174,7 @@
 					</v-layout>
 				</v-container>
 			</v-card-text>
+			<v-divider></v-divider>
 			<v-card-actions>
 				<v-spacer></v-spacer>
 				<v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
@@ -272,7 +273,6 @@
 							break;
 						default:
 					}
-					console.log(this.tasks)
 					this.clear ();
         }
       },
