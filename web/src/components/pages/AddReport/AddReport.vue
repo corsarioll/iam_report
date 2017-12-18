@@ -58,11 +58,12 @@
 									:items="tasks"
 									hide-actions
 									class="elevation-1"
-									search="COMPLETED"
+									v-bind:search="'COMPLETED'"
 			>
 			<template slot="items" scope="props" >
 				<td>{{ props.item.reference }}</td>
 				<td class="text-xs-left">{{ props.item.description }}</td>
+				<td class="text-xs-left">Completed</td>
 				<td class="text-xs-right"><v-icon v-on:click="remove(props.item,tasks.completed)">close</v-icon></td>
 			</template>
 		</v-data-table>
@@ -81,6 +82,7 @@
 			<template slot="items" scope="props" >
 				<td>{{ props.item.reference }}</td>
 				<td class="text-xs-left">{{ props.item.description }}</td>
+				<td class="text-xs-left">In progress</td>
 				<td class="text-xs-right"><v-icon v-on:click="remove(props.item,tasks.progress)">close</v-icon></td>
 			</template>
 		</v-data-table>
@@ -99,7 +101,8 @@
 			<template slot="items" scope="props" >
 				<td>{{ props.item.reference }}</td>
 				<td class="text-xs-left">{{ props.item.description }}</td>
-				<td class="text-xs-right"><v-icon v-on:click="remove(props.item,tasks.planned)">close</v-icon></td>
+				<td class="text-xs-left">Planned</td>
+				<td class="text-xs-right"><v-icon v-on:click="remove(props.item,tasks.progress)">close</v-icon></td>
 			</template>
 		</v-data-table>
 
@@ -178,6 +181,7 @@
 			</v-card-actions>
 		</v-card>
 	</v-dialog>
+
 	</div>
 </template>
 
@@ -228,10 +232,15 @@
 				headers: [
 						{ text: 'Reference', align: 'left',sortable: false,value: 'reference'},
 						{ text: 'Description', sortable: false,value: 'description',align: 'left' },
+						{ text: 'Status', sortable: false,value: 'status',align: 'left' },
 						{ text: 'Options', value: 'assigned', align:'right',sortable: false, },
 				],
 				selected: [2],
-				userList:[]
+				userList:[],
+				max25chars: (v) => v.length <= 25 || 'Input too long!',
+        tmp: '',
+        search: '',
+        pagination: {}
     	}
 		},
     methods: {
@@ -263,6 +272,7 @@
 							break;
 						default:
 					}
+					console.log(this.tasks)
 					this.clear ();
         }
       },
