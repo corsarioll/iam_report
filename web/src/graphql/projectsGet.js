@@ -1,12 +1,10 @@
 import gql from 'graphql-tag';
 
 const module = function(data){
-	
 	const proyects = gql`{
-		projectMany(filter:{users:["${data.userId}"]}){
+		projectMany(filter:{users:["${data._id}"]}) {
 			name,
-			_id,
-			users
+			_id
 		}
 	}`;
 	return proyects;	
