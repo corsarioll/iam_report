@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h4>Proyects</h4>
+		<h4 class="display-1">Proyects</h4>
 		<v-layout row wrap>
 				<v-flex xs6 v-for="item in projects" class="card-item">
 					<v-card color="darken-2" >

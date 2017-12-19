@@ -134,7 +134,7 @@
 				this.$apollo.query({
 					query:REPORTS_GET(userReports)
 				}).then((data) => {
-					this.$store.commit('reports',data.data.reportMany)
+					this.$store.commit('reports',data.data.ReportMany)
 				}).catch((err) => {
 					console.log(err)
 				})

@@ -53,6 +53,7 @@ export const store = new Vuex.Store({
 		roles:[],
 		projects:[],
 		reports:[],
+		report:{},
 		servicesUrl:'http://localhost:4000/',
 		loginModal:true
 	},
@@ -88,6 +89,9 @@ export const store = new Vuex.Store({
 		},	
 		reports (state, data) {
 			state.reports = data
+		},	
+		report (state, data) {
+			state.report = data
 		}	
 	}
 })

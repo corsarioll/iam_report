@@ -12,6 +12,7 @@ const module = function(data){
 				assignedTo
 				status
 			}
+			date
 		}
 	}`;
 	return reports;	

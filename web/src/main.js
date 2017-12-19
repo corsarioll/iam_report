@@ -14,8 +14,10 @@ import {store} from './store/store';
 import VueAuthenticate from 'vue-authenticate'
 //import VueAuthorize from 'vue-authorize'
 import VueSessionStorage from 'vue-sessionstorage'
+import VueMoment from 'vue-moment'
 
 Vue.use(VueSessionStorage)
+Vue.use(VueMoment)
 
 var invocation = new XMLHttpRequest();
 var url = 'http://localhost:4000/';
