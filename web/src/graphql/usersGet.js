@@ -7,6 +7,7 @@ const module = function(){
 			firstName,
 			email,
 			LastName,
+			userName,
 			_id,
 			role,
 			roleId

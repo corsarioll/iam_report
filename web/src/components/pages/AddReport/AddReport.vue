@@ -164,6 +164,20 @@
 							
 						</v-flex>
 						<v-flex xs12>
+							
+							<v-select
+												label="Send by email To:"
+												v-bind:items="users"
+												v-model="emails"
+												multiple
+												max-height="400"
+												hint="What are the user for send this report"
+												item-text="userName"
+												item-value="email"
+							></v-select>
+							
+						</v-flex>
+						<v-flex xs12>
 							<v-text-field
 														label="Important information"
 														v-model="addTask.value.importantInfo"
@@ -202,11 +216,15 @@
 			},
 			alertError (){
 				return this.$store.state.alertError
+			},
+			users (){
+				return this.$store.state.users
 			}
 		},
 		data () {
       return {
 				dialog: false,
+				emails:[],
 				addTask:{
 					value:{
 						reference: '',

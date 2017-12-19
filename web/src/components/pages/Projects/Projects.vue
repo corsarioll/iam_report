@@ -2,7 +2,7 @@
 	<div>
 		<h4>Proyects</h4>
 		<v-layout row wrap>
-				<v-flex xs6 v-for="item in proyectList" class="card-item">
+				<v-flex xs6 v-for="item in projects" class="card-item">
 					<v-card color="darken-2" >
 						<v-card-title primary-title>
 							<div class="headline">{{item.name}}</div>
@@ -17,12 +17,12 @@
 								<v-icon>info_outline</v-icon>
 							</v-btn>
 							
-							<v-btn icon v-if="selectProject._id == item._id">
+							<v-btn icon v-if="project._id == item._id">
 								<v-icon color="green darken-2">done</v-icon>
 							</v-btn>
 							
 							
-							<v-btn flat v-if="selectProject._id != item._id" v-on:click="changeproyect(item)" >select</v-btn>
+							<v-btn flat v-if="project._id != item._id" v-on:click="changeproyect(item)" >select</v-btn>
 						</v-card-actions>
 					</v-card>
 
@@ -42,6 +42,9 @@
 			},
 			selectUser (){
 				return this.$store.state.selectUser
+			},
+			projects (){
+				return this.$store.state.projects
 			}
 		},
 		data () {
@@ -52,7 +55,6 @@
 		},
 		methods: {
 			changeproyect (item){
-				this.selectProject = item;
 				this.$store.commit('changeProject',item)
 			}
 		}

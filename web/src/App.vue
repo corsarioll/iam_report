@@ -61,7 +61,7 @@
       </div>
     </v-toolbar>
     <v-content>	
-			<v-container fluid>
+			<v-container fluid grid-list-md>
 				<router-view></router-view>
 			</v-container>
 		</v-content>
@@ -76,7 +76,8 @@
 	import login from './components/Utilities/LoginModal/LoginModal.vue'
 	import PROJECT_GET from './graphql/projectsGet'
 	import USER_GET from './graphql/userGet'
-	import REPORTS_GET from './graphql/reportsGet';
+	import USERS_GET from './graphql/usersGet'
+	import REPORTS_GET from './graphql/reportsGet'
 	
 	export default {
 		computed:{
@@ -100,6 +101,9 @@
 			},
 			reports (){
 				return this.$store.state.reports
+			},
+			users (){
+				return this.$store.state.users
 			}
 		},
 		components:{
@@ -135,6 +139,15 @@
 					console.log(err)
 				})
 			},
+			callUsers (){
+				this.$apollo.query({
+					query:USERS_GET()
+				}).then((data) => {
+					this.$store.commit('userList',data.data.userMany)
+				}).catch((error) => {
+					console.log(error)
+				})
+			},
 			callProyects (){
 				this.$apollo.query({
 					query:PROJECT_GET(this.selectUser)
@@ -145,6 +158,7 @@
 					}
 					this.$store.commit('projects',data.data.projectMany)
 					this.callReports()
+					this.callUsers()
 				}).catch((error) => {
 					console.log(error)
 				})
