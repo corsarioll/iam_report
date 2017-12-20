@@ -1,6 +1,14 @@
 <template>
 	<div>
-		<h4 class="display-1">The {{selectUser.userName}} report on {{report.date | moment("D MMM YYYY") }}</h4>
+		<v-layout row wrap>
+			<v-flex xs12>
+				<h4 class="display-1">The {{selectUser.userName}} report on {{report.date | moment("D MMM YYYY") }}</h4>
+			</v-flex>
+			<v-flex xs12>
+				<p class="subheading">Importan info</p>
+				<p class="body-2">{{report.importantInfo}}</p>
+			</v-flex>
+		</v-layout>
 				
 		<v-toolbar color="blue" dark>
 			<v-toolbar-title>Completed Tasks:</v-toolbar-title>

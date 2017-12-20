@@ -4,7 +4,7 @@
 
 		<v-layout row wrap>
 			<v-flex xs12>
-				<h4 class="display-1">Add your report</h4>
+				<h4 class="display-1">Add your report to the project {{project.name}}</h4>
 			</v-flex>
 		</v-layout>
 		
