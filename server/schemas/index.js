@@ -1,5 +1,4 @@
 const { makeExecutableSchema, addMockFunctionsToSchema } = require('graphql-tools');
-const axios = require('axios');
 const mongoose =  require('mongoose');
 const { composeWithMongoose } =  require('graphql-compose-mongoose');
 const { GQC } =  require('graphql-compose');

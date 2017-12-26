@@ -1,7 +1,6 @@
 //Dependencies 
 import Vue from 'vue';
 import App from './App.vue';
-import style from  '../node_modules/vuetify/dist/vuetify.min.css';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
 import VueCharts from 'vue-chartjs';
@@ -15,9 +14,24 @@ import VueAuthenticate from 'vue-authenticate'
 //import VueAuthorize from 'vue-authorize'
 import VueSessionStorage from 'vue-sessionstorage'
 import VueMoment from 'vue-moment'
+import VueKindergarten from 'vue-kindergarten';
+//styles
+import style from  '../node_modules/vuetify/dist/vuetify.min.css';
+import globalStyles from  '../styles.css';
 
 Vue.use(VueSessionStorage)
 Vue.use(VueMoment)
+
+/*Vue.use(VueKindergarten, {
+  // Getter of your current user.
+  // If you use vuex, then store will be passed
+  child: (store) => {
+    return store.state.selectUser;
+    // or
+    // return decode(localStorage.getItem('jwt'));
+    // or your very own logic..
+  }
+});*/
 
 var invocation = new XMLHttpRequest();
 var url = 'http://localhost:4000/';
@@ -102,6 +116,11 @@ const router = new VueRouter({
 	mode:'history'
 });
 
+/*
+router.beforeEach(function (transition) {
+  console.log('before each')
+})
+*/
 
 new Vue({
 	store:store,

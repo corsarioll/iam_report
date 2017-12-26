@@ -10,7 +10,7 @@
 								item-value="_id"
 			></v-select>
 		</v-flex>
-		
+
 		<template>
 			<v-data-table
 					v-bind:headers="headers"
@@ -32,7 +32,6 @@
 				</template>
 			</v-data-table>
 		</template>
-		
 	</div>
 </template>
 <script>
@@ -82,8 +81,6 @@
         ]
       }
 		},
-		created() {
-    },
 		methods: {
 			filter (){
 			},

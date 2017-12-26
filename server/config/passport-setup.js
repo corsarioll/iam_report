@@ -33,10 +33,9 @@ passport.use(
 					image:email.photos[0].value,
 					active:true,
 				}
-				
 				User.findOne({email:email.emails[0].value},function(err, user){
 					// check if user already exists in our own db
-					if(user != null){	
+					if(user.googleId != null){	
 						done(null,user)
 					}
 					else{
@@ -44,8 +43,6 @@ passport.use(
 							done(null,newUser)
 							if(err){
 								console.log(err)
-							}else{
-								console.log(newUser)
 							}
 						});
 					}

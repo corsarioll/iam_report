@@ -12,9 +12,6 @@
 
 						<v-card-actions class="white">
 							<v-spacer></v-spacer>
-							<v-btn icon v-if="selectUser.roleId < 2" @click="viewProyect(item)">
-								<v-icon>settings</v-icon>
-							</v-btn>
 							
 							<v-btn icon>
 								<v-icon>info_outline</v-icon>
@@ -32,11 +29,10 @@
 				</v-flex>
 			</v-layout>
 	</div>
-
 </template>
 <script>
 	
-	import PROJECTS_GET from '../../../graphql/projectsGet';
+	import PROJECT_GET from '../../../graphql/projectsGet';
 	
 	export default {
 		computed:{
@@ -59,24 +55,7 @@
 		methods: {
 			changeproyect (item){
 				this.$store.commit('changeProject',item)
-			},
-			viewProyect (item){
-				this.$store.commit('changeProject',item)
-				this.$router.push('projects_management')
 			}
-		},
-		created (){
-			var test ={
-				admin: this.selectUser._id,
-				_id: this.selectUser._id
-			}
-			this.$apollo.query({
-				query:PROJECTS_GET(test)
-			}).then((data) => {
-				this.$store.commit('projects',data.data.projectMany)
-			}).catch((error) => {
-				console.log(error)
-			})
 		}
 	}
 </script>

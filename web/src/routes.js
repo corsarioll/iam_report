@@ -9,6 +9,8 @@ import AddReport from './components/pages/AddReport/AddReport.vue';
 import AddProject from './components/pages/AddProject/AddProject.vue';
 import Users from './components/pages/Users/users.vue';
 import AddUser from './components/pages/AddUser/AddUser.vue';
+import ProjectReports from './components/pages/ProjectReports/ProjectReports.vue';
+import ProjectsManagement from './components/pages/ProjectsManagement/ProjectsManagement.vue';
 
 const menuItems = [
 	{
@@ -59,7 +61,21 @@ const menuItems = [
 		component:Report,
 		icon:'assignment_turned_in',
 		title:'Report',
-		roleReq:4
+		roleReq:1
+	},
+	{
+		path:'/projects_management',
+		component:ProjectsManagement,
+		icon:'assignment_turned_in',
+		title:'Projetc management',
+		roleReq:2
+	},
+	{
+		path:'/project_reports',
+		component:ProjectReports,
+		icon:'assignment_turned_in',
+		title:'Projetc Reports',
+		roleReq:2
 	},
 	{
 		path:'/add_report',

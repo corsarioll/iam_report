@@ -38,7 +38,6 @@ router.post('/invitation',function(req, res, next){
 // hand control to passport to use code to grab profile info
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 	//res.send('you reached the redirect URI'+req.user);
-	console.log(req.user)
 	if(!req.user){
 		res.redirect(keys.frontEndUrl)
 	}else{

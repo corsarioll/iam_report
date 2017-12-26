@@ -18,10 +18,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 const schemas = require('./schemas/index')
 //cookie session
-app.use(cookieSession({
+/*app.use(cookieSession({
 	maxAge:24*60*60*1000,
 	keys:[keys.session.cookieKey]
-}))
+}))*/
 
 //initialized passport
 app.use(passport.initialize())

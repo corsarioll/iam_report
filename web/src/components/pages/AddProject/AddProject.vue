@@ -2,16 +2,16 @@
 	<div>
 		<v-layout row wrap>
 			<v-flex xs12>
-				<h4>Add Proyect</h4>
+				<h4>Add Project</h4>
 			</v-flex>
 		</v-layout>
-		<v-form v-model="addProyect.validations.valid" ref="form" lazy-validation>
+		<v-form v-model="addProject.validations.valid" ref="form" lazy-validation>
 			<v-layout row wrap>
 				<v-flex xs6>
 					<v-text-field
-												label="Proyect name"
-												v-model="addProyect.value.name"
-												:rules="addProyect.validations.nameRules"
+												label="Project name"
+												v-model="addProject.value.name"
+												:rules="addProject.validations.nameRules"
 												required
 					></v-text-field>
 				</v-flex>
@@ -19,8 +19,8 @@
 				<v-flex xs12 sm6>
 					<v-select
 										v-bind:items="userList"
-										v-model="addProyect.value.admin"
-										label="Proyect admin"
+										v-model="addProject.value.admin"
+										label="Project admin"
 										autocomplete
 										item-text="firstName"
 					></v-select>
@@ -30,10 +30,10 @@
 					<v-select
 										label="Users"
 										v-bind:items="userList"
-										v-model="addProyect.value.users"
+										v-model="addProject.value.users"
 										multiple
 										chips
-										hint="What are the user for this proyect"
+										hint="What are the user for this Project"
 										item-text="firstName"
 										item-value="_id"
 					></v-select>
@@ -41,7 +41,7 @@
 				
 				<v-flex xs12>
 					<div class="actions">
-						<v-btn color="primary" v-on:click="saveProyect()">Save</v-btn>
+						<v-btn color="primary" v-on:click="saveProject()">Save</v-btn>
 					</div>
 				</v-flex>
 				
@@ -56,7 +56,7 @@
   export default {
 		data () {
       return {
-				addProyect:{
+				addProject:{
 					rules: [
 						() => 'Username or Password is incorrect'
 					],
@@ -72,7 +72,7 @@
 					value:{
 							name: '',
         			users: [],
-							admin: {}
+							admin: ''
 					}
 				},
         userList: [],
@@ -86,11 +86,11 @@
 			}
 		},
 		methods: {
-			saveProyect() {
+			saveProject() {
 				var usersTem = [];
-					for (var i = 0; i<this.addProyect.value.users.length;i++){
+					for (var i = 0; i<this.addProject.value.users.length;i++){
 						for (var e = 0; e< this.userList.length; e++){
-							if(this.addProyect.value.users[i] == this.userList[e]._id){
+							if(this.addProject.value.users[i] == this.userList[e]._id){
 								usersTem.push({
 									firstName:this.userList[e].firstName,
 									email:this.userList[e].email,
@@ -100,21 +100,20 @@
 							}
 						}
 					}
-				var proyect ={
-					name:this.addProyect.value.name,
-					users:this.addProyect.value.users,
-					admin:this.addProyect.value.admin
+				var Project ={
+					name:this.addProject.value.name,
+					users:this.addProject.value.users,
+					admin:this.addProject.value.admin._id
 				}
-				
 				this.$apollo.mutate({
-					mutation: PROJECT_ADD(proyect),
-					variables: proyect
+					mutation: PROJECT_ADD(Project),
+					variables: Project
 				}).then((data) => {
-					this.addProyect.value = 
+					this.addProject.value = 
 					this.snackbar.color='success'
 					this.snackbar.snackbar=true
 					this.snackbar.text='Added record'
-					this.addProyect.value = {	
+					this.addProject.value = {	
 							name: '',
         			users: [],
 							admin: {}

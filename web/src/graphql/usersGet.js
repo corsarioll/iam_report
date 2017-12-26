@@ -10,7 +10,7 @@ const module = function(){
 			userName,
 			_id,
 			role,
-			roleId
+			roleId,
 		}
 	}`;
 	return users;	

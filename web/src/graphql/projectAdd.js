@@ -7,6 +7,7 @@ const module = function(data){
 		projectCreate(record:{
 			name:"${data.name}",
 			users:${users},
+			admin:"${data.admin}"
 		}){
 			record{
 				name,	

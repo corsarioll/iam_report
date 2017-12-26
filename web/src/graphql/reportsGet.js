@@ -1,7 +1,6 @@
 import gql from 'graphql-tag';
 
 const module = function(data){
-	
 	const reports = gql`{
 		ReportMany(filter:{reporterId:"${data.reporter}",projectId:"${data.project}"}){
 			importantInfo,
