@@ -71,13 +71,6 @@
           { text: 'In progress task', value: 'tasks',align:'center' },
           { text: 'Planned task', value: 'tasks',align:'center' },
           { text: 'Actions', value: 'actions', align:'center' },
-        ],
-        items: [
-          {
-            date: 6.0,
-            importantInfo: 24,
-            tasks: 4.0,
-          }
         ]
       }
 		},
