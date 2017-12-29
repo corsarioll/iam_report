@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<v-flex xs12>
-			<h4>Project Users</h4>
+			<h4 class="display-1">Project Users</h4>
 			<v-btn color="primary" fab small dark @click="dialog = true">
 				<v-icon>add</v-icon>
 			</v-btn>

@@ -20,7 +20,20 @@ export const store = new Vuex.Store({
 			password : "",
 			projects : [],
 			role : "",
-			active:false,
+			active:Boolean,
+			googleId:"",
+			image:"",
+			userName:""
+		},
+		editUser:{
+			_id : "",
+			firstName : "",
+			LastName : "",
+			email : "",
+			password : "",
+			projects : [],
+			role : "",
+			active:Boolean,
 			googleId:"",
 			image:"",
 			userName:""
@@ -55,7 +68,24 @@ export const store = new Vuex.Store({
 		reports:[],
 		report:{},
 		servicesUrl:'http://localhost:4000/',
-		loginModal:true
+		loginModal:true,
+		products: [
+				{name: 'Banana Skin', price: 20},
+				{name: 'Shiny Star', price: 40},
+				{name: 'Green Shells', price: 60},
+				{name: 'Red Shells', price: 80}
+		]
+	},
+	getters: {
+		saleProducts: (state) => {
+				var saleProducts = state.products.map( product => {
+						return {
+								name:  '**' + product.name + '**',
+								price: product.price / 2,
+						};
+				});
+				return saleProducts;
+		}
 	},
 	mutations:{
 		changeProject (state, newProject) {
@@ -92,6 +122,9 @@ export const store = new Vuex.Store({
 		},	
 		report (state, data) {
 			state.report = data
+		}	,	
+		editUser (state, data) {
+			state.editUser = data
 		}	
 	}
 })

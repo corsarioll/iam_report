@@ -9,6 +9,10 @@ const module = function(data){
 			userName,
 			_id,
 			image,
+			email,
+			firstName,
+			LastName,
+			roleId
 		}
 	}`;
 	return users;	

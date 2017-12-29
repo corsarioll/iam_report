@@ -11,6 +11,7 @@ import Users from './components/pages/Users/users.vue';
 import AddUser from './components/pages/AddUser/AddUser.vue';
 import ProjectReports from './components/pages/ProjectReports/ProjectReports.vue';
 import ProjectsManagement from './components/pages/ProjectsManagement/ProjectsManagement.vue';
+import EditProfile from './components/pages/EditProfile/EditProfile.vue'
 
 const menuItems = [
 	{
@@ -97,6 +98,13 @@ const menuItems = [
 		icon:'person_add',
 		title:'Add User',
 		roleReq:2
+	},
+	{
+		path:'/edit_profile',
+		component:EditProfile,
+		icon:'border_color',
+		title:'Edit User',
+		roleReq:1
 	},
 ]
 

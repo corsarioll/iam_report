@@ -61,7 +61,6 @@
 	</div>
 </template>
 <script>
-	import ROLES_GET from '../../../graphql/rolesGet';
 	import USER_ADD from '../../../graphql/userAdd';
 	export default {
 				
@@ -147,13 +146,6 @@
 			}
     },
 		created(){
-			this.$apollo.query({
-				query:ROLES_GET()
-			}).then((data) => {
-				this.$store.commit('rolesList',data.data.roleMany)
-			}).catch((error) => {
-				console.log(error)
-			})
 		},
 	}
 

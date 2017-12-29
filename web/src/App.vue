@@ -78,6 +78,11 @@
 	import USER_GET from './graphql/userGet'
 	import USERS_GET from './graphql/usersGet'
 	import REPORTS_GET from './graphql/reportsGet'
+	import ROLES_GET from './graphql/rolesGet'
+	
+	//map actions an getters 
+	import {mapActions} from 'vuex'
+	import {mapGetters} from 'vuex'
 	
 	export default {
 		computed:{
@@ -104,7 +109,13 @@
 			},
 			users (){
 				return this.$store.state.users
-			}
+			},
+			roles (){
+				return this.$store.state.roles
+			},
+			...mapGetters([
+				'saleProducts'
+			])
 		},
 		components:{
 			"app-login":login
@@ -162,6 +173,15 @@
 				}).catch((error) => {
 					console.log(error)
 				})
+			},
+			callRoles (){
+				this.$apollo.query({
+					query:ROLES_GET()
+				}).then((data) => {
+					this.$store.commit('rolesList',data.data.roleMany)
+				}).catch((error) => {
+					console.log(error)
+				})
 			}
 		},
 		mixins:[
@@ -190,6 +210,7 @@
 				}
 
 				this.menuItems = routes
+				this.callRoles()
 		},
 		props: {
       source: String

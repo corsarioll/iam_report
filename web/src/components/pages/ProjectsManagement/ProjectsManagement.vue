@@ -8,7 +8,7 @@
 				<h4 class="subheading">Proyect Users</h4>
 			</v-flex>
 			<v-flex xs12>
-				<v-chip v-for="item in users">
+				<v-chip v-for="item in users" @click="edit(item)">
 					<v-avatar>
 						<img :src="item.image" alt="item.userName">
 					</v-avatar>
@@ -70,6 +70,9 @@
 			},
 			report (){
 				return this.$store.state.report
+			},
+			editUser (){
+				return this.$store.state.editUser
 			}
 		},
 		data () {
@@ -103,6 +106,10 @@
 			reportDetails(info){
 				this.$store.commit('report',info)
 				this.$router.push('/report')
+			},
+			edit(user){
+				this.$store.commit('editUser', user)
+				this.$router.push('/edit_profile')
 			}
 		},
 		created (){

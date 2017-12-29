@@ -24,11 +24,17 @@ module.exports = {
           // other vue-loader options go here
         }
       },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/, 
-      },
+			{	
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						"presets": ["env"],
+  					"plugins": ["transform-object-rest-spread"]
+					},
+				},
+    	},
       {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
